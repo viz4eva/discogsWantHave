@@ -52,10 +52,36 @@
             [0, d3.max([maxWant, maxHave])],
             [margin, width - margin],
         );
+
+        d3.select(scatterplot)
+            .append("g")
+            .attr("transform", `translate(0,${height - margin + 10})`)
+            .call(
+                d3
+                    .axisBottom(xScale)
+                    .tickSize(-width * 1.3)
+                    .ticks(5),
+            )
+            .select(".domain")
+            .remove();
+
+        
         const yScale = d3.scaleLinear(
             [0, d3.max([maxWant, maxHave])],
             [height - margin, margin],
         );
+
+        d3.select(scatterplot)
+            .append("g")
+            .attr("transform", `translate(${margin-10},0)`)
+            .call(
+                d3
+                    .axisLeft(yScale)
+                    .tickSize(-height * 1.3)
+                    .ticks(5),
+            )
+            .select(".domain")
+            .remove();
 
         const g = d3
             .select(scatterplot)
