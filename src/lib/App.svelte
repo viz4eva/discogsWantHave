@@ -3,7 +3,7 @@
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
 </script>
 
-<p>Hello</p>
+<h3>Discogs Most Wanted</h3>
 
 <Scatterplot data={jungle}/>
 <Scatterplot data={rare}/>

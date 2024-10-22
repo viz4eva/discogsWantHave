@@ -1,23 +1,35 @@
 <script>
     import * as d3 from "d3";
     import { onMount } from "svelte";
+    import Details from "./Details.svelte";
     export let data;
 
+    console.log(data);
     const releases = data.items.map(
-        (/** @type {{ stats: { community: any; }; }} */ elem) =>
-            elem.stats?.community,
+        (
+            /** @type {{ stats: { community: { in_wantlist: any; in_collection: any; }; }; display_title: any; resource_url: any; uri: any; }} */ elem,
+        ) => {
+            return {
+                in_wantlist: elem.stats?.community.in_wantlist,
+                in_collection: elem.stats?.community.in_collection,
+                title: elem.display_title,
+                resource: elem.resource_url,
+                uri: elem.uri,
+            };
+        },
     );
     const width = 700;
     const height = width;
-    const margin = width / 20;
+    const margin = width / 10;
+    const textMargin = width / 20;
 
     /**
      * @type {SVGSVGElement}
      */
     let scatterplot;
+    let focus = releases[0];
 
     onMount(() => {
-        console.log(releases);
         buildScatter();
     });
 
@@ -54,17 +66,22 @@
         g.selectAll("path")
             .data(releases)
             .join("circle")
-            .attr("fill", (/** @type {{ in_wantlist: any; in_collection: any; }} */ d) => {
-                if (d) {
-                    if (d.in_wantlist <= d.in_collection) {
-                        return "orange";
+            .attr(
+                "fill",
+                (
+                    /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
+                ) => {
+                    if (d) {
+                        if (d.in_wantlist <= d.in_collection) {
+                            return "orange";
+                        }
+                        return "blue";
                     }
-                    return "blue";
-                }
-            })
+                },
+            )
             .attr("opacity", 0.6)
-            .attr("stroke","#555")
-            .attr("stroke-width",1)
+            .attr("stroke", "#555")
+            .attr("stroke-width", 1)
             .attr("r", 7)
             .attr(
                 "cx",
@@ -86,26 +103,45 @@
                     }
                 },
             )
-            .append("text")
-            .text(
-                (
-                    /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
-                    /** @type {number} */ i,
-                ) => {
-                    if (d) {
-                        return `want: ${d.in_wantlist}, have: ${d.in_collection}, ${i}`;
-                    }
-                    console.log(i);
-                },
-            );
+            .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
+                console.log(e, d);
+                focus = d;
+            });
 
+        //const handleZoom = (e) => g.attr("transform", e.transform);
+        //const zoom = d3.zoom().on("zoom", handleZoom);
+        //d3.select(scatterplot).call(zoom);
     }
 </script>
 
-<svg bind:this={scatterplot} id="scatter-vis" {width} {height}>
-    <line x1={margin} y1={height-margin} x2={width-margin} y2={margin} stroke="#999" stroke-dasharray="10,10" stroke-width=3/>
+<div class="vis-wrapper">
+    <svg bind:this={scatterplot} id="scatter-vis" {width} {height}>
+        <line
+            x1={margin}
+            y1={height - margin}
+            x2={width - margin}
+            y2={margin}
+            stroke="#999"
+            stroke-dasharray="10,10"
+            stroke-width="3"
+        />
+        <text x={textMargin} y={textMargin} fill="black">saturated</text>
+        <text x={width - textMargin - 20} y={textMargin} fill="black"
+            >popular</text
+        >
+        <text x={textMargin} y={height - textMargin} fill="black"
+            >irrelevant</text
+        >
+        <text x={width - textMargin - 30} y={height - textMargin} fill="black"
+            >super rare</text
+        >
     </svg>
+    <Details {focus} />
+</div>
 
 <style>
-    
+    .vis-wrapper {
+        display: flex;
+        gap: 25px;
+    }
 </style>
