@@ -22,8 +22,10 @@
     });
 
     function buildScatter() {
-        const xScale = d3.scaleLinear([0, 1000], [margin, width - margin]);
-        const yScale = d3.scaleLinear([0, 1000], [height - margin, margin]);
+        const maxWant = d3.max(releases.map((/** @type {{ in_wantlist: number, in_collection: number; }} */ elem) => elem?.in_wantlist));
+        const maxHave = d3.max(releases.map((/** @type {{ in_wantlist: number, in_collection: number; }} */ elem) => elem?.in_collection));
+        const xScale = d3.scaleLinear([0, d3.max([maxWant, maxHave])], [margin, width - margin]);
+        const yScale = d3.scaleLinear([0, d3.max([maxWant, maxHave])], [height - margin, margin]);
 
         const g = d3
             .select(scatterplot)
