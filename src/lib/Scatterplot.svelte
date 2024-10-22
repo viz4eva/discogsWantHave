@@ -53,8 +53,8 @@
 
         g.selectAll("path")
             .data(releases)
-            .join("path")
-            .attr("stroke", (/** @type {{ in_wantlist: any; in_collection: any; }} */ d) => {
+            .join("circle")
+            .attr("fill", (/** @type {{ in_wantlist: any; in_collection: any; }} */ d) => {
                 if (d) {
                     if (d.in_wantlist <= d.in_collection) {
                         return "orange";
@@ -62,16 +62,27 @@
                     return "blue";
                 }
             })
-            .attr("opacity", 0.7)
-            .attr("border","solid 1px black")
-            .attr("stroke-width", 7)
+            .attr("opacity", 0.6)
+            .attr("stroke","#555")
+            .attr("stroke-width",1)
+            .attr("r", 7)
             .attr(
-                "d",
+                "cx",
                 (
                     /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
                 ) => {
                     if (d) {
-                        return `M${xScale(d.in_wantlist)},${yScale(d.in_collection)}h0`;
+                        return xScale(d.in_wantlist);
+                    }
+                },
+            )
+            .attr(
+                "cy",
+                (
+                    /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
+                ) => {
+                    if (d) {
+                        return yScale(d.in_collection);
                     }
                 },
             )
