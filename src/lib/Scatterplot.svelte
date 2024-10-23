@@ -2,6 +2,7 @@
     import * as d3 from "d3";
     import { onMount } from "svelte";
     import Details from "./Details.svelte";
+    import App from "./App.svelte";
     export let data;
 
     console.log(data);
@@ -82,8 +83,9 @@
         d3.select(scatterplot)
             .append("text")
             .attr("text-anchor", "end")
-            .attr("y", height - textMargin)
-            .attr("x", width - textMargin)
+            .attr("y", height - textMargin + 10)
+            .attr("x", width - textMargin + 20)
+            .attr("font-weight", "bolder")
             .text("Want");
 
         d3.select(scatterplot)
@@ -91,6 +93,7 @@
             .attr("text-anchor", "end")
             .attr("y", textMargin)
             .attr("x", textMargin)
+            .attr("font-weight", "bolder")
             .text("Have");
 
         const g = d3.select(scatterplot).append("g");
@@ -145,14 +148,39 @@
         //d3.select(scatterplot).call(zoom);
     }
 
+    let sheet = 0;
+    function increaseSheet() {
+        d3.selectAll(".overlay").remove();
+        if (sheet < 2) {
+            sheet++;
+        } else {
+            sheet = 0;
+        }
+    }
+    function decreaseSheet() {
+        d3.selectAll(".overlay").remove();
+        if (sheet > 0) {
+            sheet--;
+        } else {
+            sheet = 2;
+        }
+    }
+    $: if (sheet === 1) {
+        toggleTriangleOverlay();
+    }
+    $: if (sheet === 2) {
+        toggleRectOverlay();
+    }
+    $: console.log(sheet);
+
     const overlayData = [
         {
             x: margin,
             y: 0,
             width: width / 2 - margin + 10,
             height: height / 2 - 10,
-            fill: "#ddd",
-            textX: width * 0.25,
+            fill: "#00509d",
+            textX: width * 0.25 - margin,
             textY: height * 0.25,
             text: "saturated",
         },
@@ -160,9 +188,9 @@
             x: width / 2 + 10,
             y: 0,
             width: width / 2,
-            height: height / 2 -10,
-            fill: "green",
-            textX: width * 0.75,
+            height: height / 2 - 10,
+            fill: "#ffd500",
+            textX: width * 0.75 - margin,
             textY: height * 0.25,
             text: "popular",
         },
@@ -171,8 +199,8 @@
             y: height / 2 - 10,
             width: width / 2 - margin + 10,
             height: height / 2 - margin + 10,
-            fill: "red",
-            textX: width * 0.25,
+            fill: "#ddd",
+            textX: width * 0.25 - 20,
             textY: height * 0.75,
             text: "basic",
         },
@@ -181,44 +209,96 @@
             y: height / 2 - 10,
             width: width / 2,
             height: height / 2 - margin + 10,
-            fill: "yellow",
-            textX: width * 0.75,
+            fill: "#eb5e28",
+            textX: width * 0.75 - margin - 20,
             textY: height * 0.75,
             text: "super rare",
         },
     ];
-    function toggleOverlay() {
-        if (areas) {
-            const ff = d3.selectAll(".overlay").remove();
-            areas = false;
-        } else {
-            const overlay = d3
-                .select(scatterplot)
-                .selectAll("rect")
-                .data(overlayData)
-                .join("rect")
-                .classed("overlay", true)
-                .attr("x", (d) => d.x)
-                .attr("y", (d) => d.y)
-                .attr("width", (d) => d.width)
-                .attr("height", (d) => d.height)
-                .attr("fill", (d) => d.fill)
-                .attr("opacity", 0.3);
+    function toggleRectOverlay() {
+        const overlay = d3
+            .select(scatterplot)
+            .selectAll("rect")
+            .data(overlayData)
+            .join("rect")
+            .classed("overlay", true)
+            .attr("x", (/** @type {{ x: any; }} */ d) => d.x)
+            .attr("y", (/** @type {{ y: any; }} */ d) => d.y)
+            .attr("width", (/** @type {{ width: any; }} */ d) => d.width)
+            .attr("height", (/** @type {{ height: any; }} */ d) => d.height)
+            .attr("fill", (/** @type {any[]} */ d) => d.fill)
+            .attr("opacity", 0.3);
 
-            d3.select(scatterplot)
-                .selectAll("text")
-                .data(overlayData)
-                .append("text")
-                .attr("x", (d) => d.textX)
-                .attr("y", (d) => d.textY)
-                .attr("fill", "#ddd")
-                .text((d) => d.text);
+        overlay.each(
+            (
+                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
+            ) => {
+                d3.select(scatterplot)
+                    .append("text")
+                    .text(elem.text)
+                    .attr("x", elem.textX)
+                    .attr("y", elem.textY)
+                    .attr("fill", elem.fill)
+                    .attr("stroke", "#777")
+                    .attr("font-size", 45)
+                    .attr("font-family", "monospace")
+                    .classed("overlay", true);
+            },
+        );
+    }
 
-                areas = true;
-        }
+    const triangleOverlayData = [
+        {
+            path: `M ${margin} 0 L ${width} 0 L ${margin} ${height-margin} Z`,
+            fill: "orange",
+            text: "More people have it",
+            textX: margin + 10,
+            textY: 30
+        },
+        {
+            path: `M ${margin} ${height-margin} L ${width} ${height-margin} L${width} 0 Z`,
+            fill: "blue",
+            text: "More people want it",
+            textX: width/2 + 10,
+            textY: height-margin - 10
+        },
+    ];
+
+    function toggleTriangleOverlay() {
+        console.log("dreieck");
+        const overlay = d3
+            .select(scatterplot)
+            .selectAll("path")
+            .data(triangleOverlayData)
+            .join("path")
+            .classed("overlay", true)
+            .attr("d", (/** @type {{ path: any; }} */ d) => d.path)
+            .attr("stroke", "none")
+            .attr("fill", (/** @type {any[]} */ d) => d.fill)
+            .attr("opacity", 0.2);
+
+        overlay.each(
+            (
+                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
+            ) => {
+                d3.select(scatterplot)
+                    .append("text")
+                    .text(elem.text)
+                    .attr("x", elem.textX)
+                    .attr("y", elem.textY)
+                    .attr("fill", elem.fill)
+                    .attr("stroke", "#777")
+                    .attr("font-size", 30)
+                    .attr("font-family", "monospace")
+                    .classed("overlay", true);
+            },
+        );
     }
 </script>
 
+<button on:click={decreaseSheet}>1</button>
+Beschriftung
+<button on:click={increaseSheet}>2</button>
 <div class="vis-wrapper">
     <svg bind:this={scatterplot} id="scatter-vis" {width} {height}>
         <line
@@ -232,7 +312,6 @@
         />
     </svg>
     <Details {focus} />
-    <button on:click={toggleOverlay}>yeah</button>
 </div>
 
 <style>
