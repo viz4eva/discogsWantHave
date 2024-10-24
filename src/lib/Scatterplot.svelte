@@ -166,9 +166,10 @@
                 (
                     /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
                 ) => {
-                    if (d) {
+                    if (d && d.in_wantlist != undefined) {
                         return xScale(d.in_wantlist);
                     }
+                    return margin;
                 },
             )
             .attr(
@@ -176,9 +177,10 @@
                 (
                     /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
                 ) => {
-                    if (d) {
+                    if (d && d.in_collection != undefined) {
                         return yScale(d.in_collection);
                     }
+                    return height - margin;
                 },
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
@@ -197,10 +199,6 @@
             .attr("stroke", "#999")
             .attr("stroke-dasharray", "10,10")
             .attr("stroke-width", 3);
-
-        //const handleZoom = (e) => g.attr("transform", e.transform);
-        //const zoom = d3.zoom().on("zoom", handleZoom);
-        //d3.select(scatterplot).call(zoom);
     }
 
     let sheet = 0;
