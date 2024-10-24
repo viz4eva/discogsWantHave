@@ -2,11 +2,22 @@
     import * as d3 from "d3";
     import { onMount } from "svelte";
     import Details from "./Details.svelte";
-    import App from "./App.svelte";
+    /**
+     * @type {{ items: any[]; }}
+     */
     export let data;
 
-    console.log(data);
-    const releases = data.items.map(
+    const width = 700;
+    const height = width;
+    const margin = width / 10;
+    const textMargin = margin - 20;
+
+    /**
+     * @type {SVGSVGElement}
+     */
+    let scatterplot;
+
+    let releases = data.items.map(
         (
             /** @type {{ stats: { community: { in_wantlist: any; in_collection: any; }; }; display_title: any; resource_url: any; uri: any; }} */ elem,
         ) => {
@@ -19,48 +30,81 @@
             };
         },
     );
-    const width = 700;
-    const height = width;
-    const margin = width / 10;
-    const textMargin = margin - 20;
-    let areas = false;
-
-    /**
-     * @type {SVGSVGElement}
-     */
-    let scatterplot;
     let focus = releases[0];
-
-    const maxWant = d3.max(
+    let maxWant = d3.max(
         releases.map(
             (
                 /** @type {{ in_wantlist: number, in_collection: number; }} */ elem,
             ) => elem?.in_wantlist,
         ),
     );
-    const maxHave = d3.max(
+    let maxHave = d3.max(
         releases.map(
             (
                 /** @type {{ in_wantlist: number, in_collection: number; }} */ elem,
             ) => elem?.in_collection,
         ),
     );
-
-    const xScale = d3.scaleLinear(
+    let xScale = d3.scaleLinear(
         [0, d3.max([maxWant, maxHave])],
         [margin, width - margin],
     );
 
-    const yScale = d3.scaleLinear(
+    let yScale = d3.scaleLinear(
         [0, d3.max([maxWant, maxHave])],
         [height - margin, margin],
     );
+
+    function recalcVisUtils() {
+        releases = data.items.map(
+            (
+                /** @type {{ stats: { community: { in_wantlist: any; in_collection: any; }; }; display_title: any; resource_url: any; uri: any; }} */ elem,
+            ) => {
+                return {
+                    in_wantlist: elem.stats?.community.in_wantlist,
+                    in_collection: elem.stats?.community.in_collection,
+                    title: elem.display_title,
+                    resource: elem.resource_url,
+                    uri: elem.uri,
+                };
+            },
+        );
+        focus = releases[0];
+        maxWant = d3.max(
+            releases.map(
+                (
+                    /** @type {{ in_wantlist: number, in_collection: number; }} */ elem,
+                ) => elem?.in_wantlist,
+            ),
+        );
+        maxHave = d3.max(
+            releases.map(
+                (
+                    /** @type {{ in_wantlist: number, in_collection: number; }} */ elem,
+                ) => elem?.in_collection,
+            ),
+        );
+
+        xScale = d3.scaleLinear(
+            [0, d3.max([maxWant, maxHave])],
+            [margin, width - margin],
+        );
+
+        yScale = d3.scaleLinear(
+            [0, d3.max([maxWant, maxHave])],
+            [height - margin, margin],
+        );
+    }
 
     onMount(() => {
         buildScatter();
     });
 
+    $: data, buildScatter();
+
     function buildScatter() {
+        d3.select(scatterplot).selectAll("*").remove();
+        recalcVisUtils();
         d3.select(scatterplot)
             .append("g")
             .attr("transform", `translate(0,${height - margin + 20})`)
@@ -84,7 +128,7 @@
             .append("text")
             .attr("text-anchor", "end")
             .attr("y", height - textMargin + 10)
-            .attr("x", width - textMargin + 20)
+            .attr("x", width - textMargin + 40)
             .attr("font-weight", "bolder")
             .text("Want");
 
@@ -139,9 +183,19 @@
                 },
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
-                console.log(e, d);
                 focus = d;
             });
+
+            d3.select(scatterplot)
+            .append("line")
+            .attr("x1", margin)
+            .attr("y1", height-margin)
+            .attr("x2", width)
+            .attr("y2", 0)
+            .attr("stroke", "#999")
+            .attr("stroke-dasharray", "10,10")
+            .attr("stroke-width", 3);
+
 
         //const handleZoom = (e) => g.attr("transform", e.transform);
         //const zoom = d3.zoom().on("zoom", handleZoom);
@@ -171,7 +225,6 @@
     $: if (sheet === 2) {
         toggleRectOverlay();
     }
-    $: console.log(sheet);
 
     const overlayData = [
         {
@@ -249,23 +302,22 @@
 
     const triangleOverlayData = [
         {
-            path: `M ${margin} 0 L ${width} 0 L ${margin} ${height-margin} Z`,
+            path: `M ${margin} 0 L ${width} 0 L ${margin} ${height - margin} Z`,
             fill: "orange",
             text: "More people have it",
             textX: margin + 10,
-            textY: 30
+            textY: 30,
         },
         {
-            path: `M ${margin} ${height-margin} L ${width} ${height-margin} L${width} 0 Z`,
+            path: `M ${margin} ${height - margin} L ${width} ${height - margin} L${width} 0 Z`,
             fill: "blue",
             text: "More people want it",
-            textX: width/2 + 10,
-            textY: height-margin - 10
+            textX: width / 2 + 10,
+            textY: height - margin - 10,
         },
     ];
 
     function toggleTriangleOverlay() {
-        console.log("dreieck");
         const overlay = d3
             .select(scatterplot)
             .selectAll("path")
@@ -296,20 +348,15 @@
     }
 </script>
 
-<button on:click={decreaseSheet}>1</button>
-Beschriftung
-<button on:click={increaseSheet}>2</button>
+<p>Click anywhere in the chart for interpretation aids.</p>
 <div class="vis-wrapper">
-    <svg bind:this={scatterplot} id="scatter-vis" {width} {height}>
-        <line
-            x1={margin}
-            y1={height - margin}
-            x2={width}
-            y2={0}
-            stroke="#999"
-            stroke-dasharray="10,10"
-            stroke-width="3"
-        />
+    <svg
+        bind:this={scatterplot}
+        id="scatter-vis"
+        {width}
+        {height}
+        on:click={increaseSheet}
+    >
     </svg>
     <Details {focus} />
 </div>
