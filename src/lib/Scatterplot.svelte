@@ -142,7 +142,7 @@
 
         const g = d3.select(scatterplot).append("g");
 
-        g.selectAll("circle")
+        const circles =g.selectAll("circle")
             .data(releases)
             .join("circle")
             .attr(
@@ -161,7 +161,6 @@
             .attr("opacity", 0.6)
             .attr("stroke", "#555")
             .attr("stroke-width", 1)
-            .attr("r", 6)
             .attr(
                 "cx",
                 (
@@ -184,18 +183,20 @@
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
                 focus = d;
-            });
+            })
+            .transition()
+            .duration(700)
+            .attr("r", 6);
 
-            d3.select(scatterplot)
+        d3.select(scatterplot)
             .append("line")
             .attr("x1", margin)
-            .attr("y1", height-margin)
+            .attr("y1", height - margin)
             .attr("x2", width)
             .attr("y2", 0)
             .attr("stroke", "#999")
             .attr("stroke-dasharray", "10,10")
             .attr("stroke-width", 3);
-
 
         //const handleZoom = (e) => g.attr("transform", e.transform);
         //const zoom = d3.zoom().on("zoom", handleZoom);
