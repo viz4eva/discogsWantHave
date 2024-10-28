@@ -2,6 +2,7 @@
     import * as d3 from "d3";
     import { onMount } from "svelte";
     import Details from "./Details.svelte";
+    import Explanation from "./Explanation.svelte";
     /**
      * @type {{ items: any[]; }}
      */
@@ -142,7 +143,8 @@
 
         const g = d3.select(scatterplot).append("g");
 
-        const circles =g.selectAll("circle")
+        const circles = g
+            .selectAll("circle")
             .data(releases)
             .join("circle")
             .attr(
@@ -357,7 +359,10 @@
         on:click={increaseSheet}
     >
     </svg>
-    <Details {focus} />
+    <div id="detail-section">
+        <Details {focus} />
+        <Explanation {focus} />
+    </div>
 </div>
 
 <style>
@@ -368,5 +373,10 @@
 
     svg {
         margin: 20px;
+        cursor: pointer;
+    }
+
+    #detail-section {
+        width: 15vw;
     }
 </style>
