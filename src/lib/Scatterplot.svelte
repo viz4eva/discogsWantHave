@@ -55,6 +55,10 @@
         [0, d3.max([maxWant, maxHave])],
         [height - margin, margin],
     );
+    /**
+     * @type {() => void}
+     */
+    let reset;
 
     function recalcVisUtils() {
         releases = data.items.map(
@@ -106,19 +110,30 @@
     function buildScatter() {
         d3.select(scatterplot).selectAll("*").remove();
         recalcVisUtils();
-        d3.select(scatterplot)
-            .append("g")
-            .attr("transform", `translate(0,${height - margin + 20})`)
-            .call(d3.axisBottom(xScale).tickSize(-width).ticks(5))
-            .select(".domain")
-            .remove();
 
-        d3.select(scatterplot)
-            .append("g")
-            .attr("transform", `translate(${margin - 20},0)`)
-            .call(d3.axisLeft(yScale).tickSize(-height).ticks(5))
-            .select(".domain")
-            .remove();
+        const zoom = d3.zoom().scaleExtent([0, 32]).on("zoom", zoomed);
+
+        // @ts-ignore
+        let xAxis = (g, x) =>
+            g
+                .attr("transform", `translate(0,${height - margin + 5})`)
+                .call(d3.axisBottom(x).tickSize(-width).ticks(5))
+                .call(
+                    (
+                        /** @type {{ select: (arg0: string) => { (): any; new (): any; attr: { (arg0: string, arg1: string): any; new (): any; }; }; }} */ g,
+                    ) => g.select(".domain").attr("display", "none"),
+                );
+
+        // @ts-ignore
+        let yAxis = (g, y) =>
+            g
+                .attr("transform", `translate(${margin - 5},0)`)
+                .call(d3.axisLeft(y).tickSize(-height).ticks(5))
+                .call(
+                    (
+                        /** @type {{ select: (arg0: string) => { (): any; new (): any; attr: { (arg0: string, arg1: string): any; new (): any; }; }; }} */ g,
+                    ) => g.select(".domain").attr("display", "none"),
+                );
 
         d3.select(scatterplot)
             .selectAll(".tick line")
@@ -142,6 +157,8 @@
             .text("Have");
 
         const g = d3.select(scatterplot).append("g");
+        const gx = d3.select(scatterplot).append("g");
+        const gy = d3.select(scatterplot).append("g");
 
         const circles = g
             .selectAll("circle")
@@ -192,7 +209,8 @@
             .duration(700)
             .attr("r", 6);
 
-        d3.select(scatterplot)
+        let line = d3
+            .select(scatterplot)
             .append("line")
             .attr("x1", margin)
             .attr("y1", height - margin)
@@ -201,6 +219,39 @@
             .attr("stroke", "#999")
             .attr("stroke-dasharray", "10,10")
             .attr("stroke-width", 3);
+
+        d3.select(scatterplot).call(zoom).call(zoom.transform, d3.zoomIdentity);
+
+        // @ts-ignore
+        function zoomed({ transform }) {
+            if(sheet == 0) {
+                const zx = transform
+                .rescaleX(xScale)
+                .interpolate(d3.interpolateRound);
+            const zy = transform
+                .rescaleY(yScale)
+                .interpolate(d3.interpolateRound);
+            g.attr("transform", transform);
+            d3.selectAll("circle")
+                .attr("r", 7 / transform.k)
+                .attr("stroke-width", 1 / transform.k);
+            line.attr("transform", transform).attr(
+                "stroke-width",
+                3 / transform.k,
+            );
+            gx.call(xAxis, zx);
+            gy.call(yAxis, zy);
+
+            }
+            
+        }
+
+        reset = function () {
+            d3.select(scatterplot)
+                .transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+        };
     }
 
     let sheet = 0;
@@ -210,14 +261,6 @@
             sheet++;
         } else {
             sheet = 0;
-        }
-    }
-    function decreaseSheet() {
-        d3.selectAll(".overlay").remove();
-        if (sheet > 0) {
-            sheet--;
-        } else {
-            sheet = 2;
         }
     }
     $: if (sheet === 1) {
@@ -270,6 +313,7 @@
         },
     ];
     function toggleRectOverlay() {
+        reset();
         const overlay = d3
             .select(scatterplot)
             .selectAll("rect")
@@ -319,6 +363,7 @@
     ];
 
     function toggleTriangleOverlay() {
+        reset()
         const overlay = d3
             .select(scatterplot)
             .selectAll("path")
@@ -350,6 +395,7 @@
 </script>
 
 <p>Click anywhere in the chart for interpretation aids.</p>
+<button on:click={reset}>Reset zoom</button>
 <div class="vis-wrapper">
     <svg
         bind:this={scatterplot}
@@ -359,6 +405,7 @@
         on:click={increaseSheet}
     >
     </svg>
+
     <div id="detail-section">
         <Details {focus} />
         <Explanation {focus} />
