@@ -1,6 +1,7 @@
 <script>
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
+    import Scrolltest from "./Scrolltest.svelte";
 
     let selectedList = discoClassics;
 </script>
@@ -37,6 +38,8 @@
         >Discogs API</a
     >
 </p>
+
+<Scrolltest/>
 
 <style>
     #intro {
