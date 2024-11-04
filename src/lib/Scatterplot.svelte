@@ -38,7 +38,10 @@
             };
         },
     );
-    let focus = releases[0];
+    /**
+     * @type {any}
+     */
+    let focus;
     let maxWant = d3.max(
         releases.map(
             (
@@ -81,7 +84,6 @@
                 };
             },
         );
-        focus = releases[0];
         maxWant = d3.max(
             releases.map(
                 (
@@ -118,7 +120,7 @@
         d3.select(scatterplot).selectAll("*").remove();
         recalcVisUtils();
 
-        const zoom = d3.zoom().scaleExtent([0, 32]).on("zoom", zoomed);
+        const zoom = d3.zoom().scaleExtent([0, 5]).on("zoom", zoomed);
 
         // @ts-ignore
         let xAxis = (g, x) =>
@@ -371,7 +373,6 @@
     ];
 
     function toggleTriangleOverlay() {
-        reset()
         const overlay = d3
             .select(scatterplot)
             .selectAll("path")
