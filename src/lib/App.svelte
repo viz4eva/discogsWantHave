@@ -13,16 +13,16 @@
     <p>
         <a href="https://www.discogs.com/" target="_blank">Discogs</a> is a free,
         community-based data base for discographies and trading platform for records.
-        It gives members the opportunity to mark the records they own and those they
-        would like to own. This data gives insights on which are releases are rare
-        within the Discogs community: those who many collectors want, but few already
-        own. And which are owned by many but on few people's wantlist.
+        It gives members the opportunity to mark the records they own on a Have-List and those they
+        would like to own on a Want-List.
     </p>
-
     <p>
-        This scatter plot visualization shows the correlations of want and have
-        for the records from a selection of three user-generated release lists.
-        Hover over a circle to see which release is represented by it.
+        This data gives insights on how much sought-after releases are
+        within the Discogs community: Those which many collectors want but few already
+        own can definitely be described as rare. But there might be also those, which many collectors already have and few still want and other flavours of demand.
+    </p>
+    <p>
+        Scroll to have a look!
     </p>
 </div>
 
@@ -33,8 +33,8 @@
 
 
 <div id="explore">
-    <p>Now you can explore. Example: rare and most of them are actually beneath</p>
-    <p>Click for layers and feel free to zoom</p>
+    <p>Now that you know how this visualiuation works, you can explore different other user-created lists published on Discgos. This first selected example list is called "rare + played by great djs!". And indeed, most releases in there have many more Wants than Haves. We can see quite a few super rare outliers.</p>
+    <p>Click anywhere in the chart to display the explaning overlays from earlier.</p>
 </div>
 
 <select bind:value={selectedList}>
@@ -54,6 +54,8 @@
     #intro {
         width: 50vw;
         text-align: justify;
+        margin-bottom: 2rem;
+        font-size: large;
     }
 
     select {

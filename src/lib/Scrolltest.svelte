@@ -83,13 +83,23 @@
     <section id="scrolly">
         <article>
             <div class="step" data-step="1">
-                <p>Generelle Erklärung Achsen und so weiter</p>
+                <p>This scatterplot visualizes the correlation of Wants and Haves for a selected user-created list Classic / 80s / Synth Pop / Italo Disco.</p>
+                <p>Each dot represents a release. Those with many Wants are drawn more towards the right, whereas those with many Haves are drawn more towards the upper part of the plot.</p>
             </div>
             <div class="step" data-step="2">
-                <p>Über und unter der Achse</p>
+                <p>Consequently, the releases mapped above the line are more owned than wanted. Those drawn below could collect more Wants than Haves.</p>
+                <p>We can see that this this list includes more releases with Wants exceeding the Haves.</p>
             </div>
             <div class="step" data-step="3">
-                <p>Vier Zonen</p>
+                <p>Additionally, we could divide the space into different zones that further exmplain the demand for the included releases.  
+                </p>
+                <ul>
+                    <li>Basic: wanted by few, owned by few</li>
+                    <li>Saturated: already in many collections but on few want-lists</li>
+                    <li>Popular: Collected by many and still wanted by many</li>
+                    <li>Super rare: owned by few, but wanted by many</li>
+                 </ul> 
+                 <p>In this collection we have an interesting, very saturated outlier: It's Major Tom (Völlig losgelöst) by Peter Schilling.</p>
             </div>
         </article>
 
@@ -143,8 +153,10 @@
     }
 
     .step p {
-        text-align: center;
+        text-align: left;
         padding: 1rem;
-        font-size: 1.25rem;
+        width: 200px;
+        font-size: medium;
+        padding-top: 50px;
     }
 </style>
