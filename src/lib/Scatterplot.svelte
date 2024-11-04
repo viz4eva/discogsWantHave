@@ -213,6 +213,10 @@
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
                 focus = d;
+                d3.select(e.currentTarget).attr("r",10)
+            })
+            .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
+                d3.select(e.currentTarget).attr("r",7)
             })
             .transition()
             .duration(700)
