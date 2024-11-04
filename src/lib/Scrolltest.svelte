@@ -3,6 +3,8 @@
     import scrollama from "scrollama";
     import * as d3 from "d3";
     import { onMount } from "svelte";
+    import Scatterplot from "./Scatterplot.svelte";
+    import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
 
     let main;
     let scrolly;
@@ -10,6 +12,8 @@
     let article;
     let step;
     let scroller;
+    let sheet = 0;
+    let selectedList = discoClassics;
 
     // kick things off
     onMount(() => {
@@ -53,7 +57,8 @@
         });
 
         // update graphic based on step
-        figure.select("p").text(response.index + 1);
+        d3.selectAll(".overlay").remove();
+        sheet = response.index;
     }
 
     function init() {
@@ -66,7 +71,7 @@
         scroller
             .setup({
                 step: "#scrolly article .step",
-                offset: 0.33,
+                offset: 0.5,
                 debug: false,
             })
             .onStepEnter(handleStepEnter);
@@ -78,21 +83,18 @@
     <section id="scrolly">
         <article>
             <div class="step" data-step="1">
-                <p>STEP 1</p>
+                <p>Generelle Erklärung Achsen und so weiter</p>
             </div>
             <div class="step" data-step="2">
-                <p>STEP 2</p>
+                <p>Über und unter der Achse</p>
             </div>
             <div class="step" data-step="3">
-                <p>STEP 3</p>
-            </div>
-            <div class="step" data-step="4">
-                <p>STEP 4</p>
+                <p>Vier Zonen</p>
             </div>
         </article>
 
         <figure>
-            <p>0</p>
+            <Scatterplot data={selectedList} {sheet} explorative={false}/>
         </figure>
     </section>
 
@@ -105,8 +107,7 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        background-color: #f3f3f3;
-        padding: 1rem;
+        padding: 0;
     }
 
     #scrolly > * {
@@ -125,46 +126,25 @@
         position: -webkit-sticky;
         position: sticky;
         width: 100%;
-        margin: 0;
+        height: 100vh;
+        margin-bottom: 300px;
         -webkit-transform: translate3d(0, 0, 0);
         -moz-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
-        background-color: #8a8a8a;
         z-index: 0;
-    }
-
-    figure p {
-        text-align: center;
-        padding: 1rem;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -moz-transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        font-size: 8rem;
-        font-weight: 900;
-        color: #fff;
     }
 
     .step {
         margin: 0 auto 2rem auto;
-        background-color: #3b3b3b;
-        color: #fff;
     }
 
     .step:last-child {
         margin-bottom: 0;
     }
 
-    .step.is-active {
-        background-color: goldenrod;
-        color: #3b3b3b;
-    }
-
     .step p {
         text-align: center;
         padding: 1rem;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 </style>

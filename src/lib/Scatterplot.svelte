@@ -2,13 +2,20 @@
     import * as d3 from "d3";
     import { onMount } from "svelte";
     import Details from "./Details.svelte";
-    import Explanation from "./Explanation.svelte";
     /**
      * @type {{ items: any[]; }}
      */
     export let data;
+    /**
+     * @type {number}
+     */
+     export let sheet;
+     /**
+     * @type {boolean}
+     */
+      export let explorative;
 
-    const width = 700;
+    const width = 650;
     const height = width;
     const margin = width / 10;
     const textMargin = margin - 20;
@@ -254,13 +261,14 @@
         };
     }
 
-    let sheet = 0;
     function increaseSheet() {
-        d3.selectAll(".overlay").remove();
+        if(explorative) {
+            d3.selectAll(".overlay").remove();
         if (sheet < 2) {
             sheet++;
         } else {
             sheet = 0;
+        }
         }
     }
     $: if (sheet === 1) {
@@ -394,7 +402,6 @@
     }
 </script>
 
-<p>Click anywhere in the chart for interpretation aids.</p>
 <button on:click={reset}>Reset zoom</button>
 <div class="vis-wrapper">
     <svg
@@ -408,7 +415,6 @@
 
     <div id="detail-section">
         <Details {focus} />
-        <Explanation {focus} />
     </div>
 </div>
 
@@ -416,6 +422,7 @@
     .vis-wrapper {
         display: flex;
         gap: 25px;
+        padding-bottom: 100px;
     }
 
     svg {

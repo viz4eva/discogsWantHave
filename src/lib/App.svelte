@@ -1,9 +1,10 @@
 <script>
+// @ts-nocheck
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
     import Scrolltest from "./Scrolltest.svelte";
 
-    let selectedList = discoClassics;
+    let selectedList = rare;
 </script>
 
 <h3>Discogs Most Wanted</h3>
@@ -25,21 +26,29 @@
     </p>
 </div>
 
+
+<Scrolltest {discoClassics}/>
+
+
+
+
+<div id="explore">
+    <p>Now you can explore. Example: rare and most of them are actually beneath</p>
+    <p>Click for layers and feel free to zoom</p>
+</div>
+
 <select bind:value={selectedList}>
     <option value={discoClassics}>{discoClassics.name}</option>
     <option value={jungle}>{jungle.name}</option>
     <option value={rare}>{rare.name}</option>
 </select>
-
-<Scatterplot data={selectedList} />
+<Scatterplot data={selectedList} sheet={0} explorative={true}/>
 
 <p>
     Data Source: <a href="https://www.discogs.com/developers/#" target="_blank"
         >Discogs API</a
     >
 </p>
-
-<Scrolltest/>
 
 <style>
     #intro {
