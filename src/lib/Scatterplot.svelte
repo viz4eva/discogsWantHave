@@ -275,7 +275,6 @@
                 .transition()
                 .duration(300)
                 .call(zoom.transform, d3.zoomIdentity);
-            console.log("jooo");
         };
 
         zoomIn = function () {
@@ -292,7 +291,7 @@
 
     function increaseSheet() {
         if (explorative) {
-            d3.selectAll(".overlay").remove();
+           d3.selectAll(".overlay").remove();
             if (sheet < 2) {
                 sheet++;
             } else {
@@ -350,7 +349,6 @@
         },
     ];
     function toggleRectOverlay() {
-        setTimeout(reset,500);
         const overlay = d3
             .select(scatterplot)
             .selectAll("rect")
@@ -384,14 +382,14 @@
 
     const triangleOverlayData = [
         {
-            path: `M ${margin} 0 L ${width} 0 L ${margin} ${height - margin} Z`,
+            path: `${margin},0 ${width},0 ${margin},${height - margin}`,
             fill: "orange",
             text: "More people have it",
             textX: margin + 10,
             textY: 30,
         },
         {
-            path: `M ${margin} ${height - margin} L ${width} ${height - margin} L${width} 0 Z`,
+            path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
             fill: "blue",
             text: "More people want it",
             textX: width / 2 + 10,
@@ -402,14 +400,16 @@
     function toggleTriangleOverlay() {
         const overlay = d3
             .select(scatterplot)
-            .selectAll("path")
+            .selectAll("polygon")
             .data(triangleOverlayData)
-            .join("path")
+            .join("polygon")
             .classed("overlay", true)
-            .attr("d", (/** @type {{ path: any; }} */ d) => d.path)
+            .attr("points", (/** @type {{ path: any; }} */ d) => d.path)
             .attr("stroke", "none")
             .attr("fill", (/** @type {any[]} */ d) => d.fill)
             .attr("opacity", 0.2);
+
+            console.log(overlay);
 
         overlay.each(
             (
