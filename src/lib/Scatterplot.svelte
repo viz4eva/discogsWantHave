@@ -241,7 +241,7 @@
             .attr("stroke-dasharray", "10,10")
             .attr("stroke-width", 3);
 
-        d3.select(scatterplot).call(zoom).call(zoom.transform, d3.zoomIdentity);
+        d3.select(scatterplot).call(zoom).call(zoom.transform, d3.zoomIdentity).on("wheel.zoom", null).on("dblclick.zoom", null).on("touchmove.zoom", null);
 
         // @ts-ignore
         function zoomed({ transform }) {

@@ -48,7 +48,7 @@
 
     // scrollama event handlers
     function handleStepEnter(response) {
-        console.log(response);
+        //console.log(response);
         // response = { element, direction, index }
 
         // add color to current step only
