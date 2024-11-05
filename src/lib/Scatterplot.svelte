@@ -128,7 +128,7 @@
         d3.select(scatterplot).selectAll("*").remove();
         recalcVisUtils();
 
-        const zoom = d3.zoom().scaleExtent([0, 5]).on("zoom", zoomed);
+        const zoom = d3.zoom().scaleExtent([0, 50]).on("zoom", zoomed);
 
         // @ts-ignore
         let xAxis = (g, x) =>
@@ -291,7 +291,6 @@
     }
 
     function increaseSheet() {
-        reset();
         if (explorative) {
             d3.selectAll(".overlay").remove();
             if (sheet < 2) {
@@ -351,6 +350,7 @@
         },
     ];
     function toggleRectOverlay() {
+        setTimeout(reset,500);
         const overlay = d3
             .select(scatterplot)
             .selectAll("rect")
@@ -430,10 +430,12 @@
     }
 </script>
 
+{#if explorative}
 <button on:click={zoomIn} disabled={sheet == 0 ? false : true}>+</button>
 <button on:click={zoomOut} disabled={sheet == 0 ? false : true}>-</button>
 <button on:click={reset} disabled={sheet == 0 ? false : true}>Reset zoom</button
 >
+{/if}
 
 <div class="vis-wrapper">
     <svg
