@@ -116,7 +116,7 @@
                     Wants than Haves.
                 </p>
                 <p>
-                    We can see that this this list includes more releases with
+                    We can see that this list includes more releases with
                     Wants exceeding the Haves.
                 </p>
             </div>

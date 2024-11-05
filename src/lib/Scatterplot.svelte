@@ -132,7 +132,7 @@
             width: width / 2,
             height: height / 2 - margin + 10,
             fill: "#eb5e28",
-            textX: width * 0.75 - margin - 20,
+            textX: width * 0.75 - margin - 40,
             textY: height * 0.75,
             text: "super rare",
         },
@@ -443,17 +443,17 @@
     }
 
     function toggleRectOverlay() {
-        d3.selectAll(".triangle").attr("opacity",0);
-        d3.selectAll(".triangleText").attr("opacity",0);
-        d3.selectAll(".rectangle").attr("opacity",0.2);
-        d3.selectAll(".rectangleText").attr("opacity",1);
+        d3.selectAll(".triangle").transition().duration(500).attr("opacity",0);
+        d3.selectAll(".triangleText").transition().duration(500).attr("opacity",0);
+        d3.selectAll(".rectangle").transition().duration(500).attr("opacity",0.2);
+        d3.selectAll(".rectangleText").transition().duration(500).attr("opacity",1);
     }
 
     function toggleTriangleOverlay() {
-        d3.selectAll(".rectangle").attr("opacity",0);
-        d3.selectAll(".rectangleText").attr("opacity",0);
-        d3.selectAll(".triangle").attr("opacity",0.2);
-        d3.selectAll(".triangleText").attr("opacity",1);
+        d3.selectAll(".rectangle").transition().duration(500).attr("opacity",0);
+        d3.selectAll(".rectangleText").transition().duration(500).attr("opacity",0);
+        d3.selectAll(".triangle").transition().duration(500).attr("opacity",0.2);
+        d3.selectAll(".triangleText").transition().duration(500).attr("opacity",1);
     }    
 </script>
 
