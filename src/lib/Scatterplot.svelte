@@ -241,7 +241,12 @@
             .attr("stroke-dasharray", "10,10")
             .attr("stroke-width", 3);
 
-        d3.select(scatterplot).call(zoom).call(zoom.transform, d3.zoomIdentity).on("wheel.zoom", null).on("dblclick.zoom", null).on("touchmove.zoom", null);
+        d3.select(scatterplot)
+            .call(zoom)
+            .call(zoom.transform, d3.zoomIdentity)
+            .on("wheel.zoom", null)
+            .on("dblclick.zoom", null)
+            .on("touchmove.zoom", null);
 
         // @ts-ignore
         function zoomed({ transform }) {
@@ -266,12 +271,11 @@
         }
 
         reset = function () {
-            
             d3.select(scatterplot)
                 .transition()
                 .duration(300)
                 .call(zoom.transform, d3.zoomIdentity);
-                console.log("jooo");
+            console.log("jooo");
         };
 
         zoomIn = function () {
@@ -426,11 +430,11 @@
     }
 </script>
 
-{#if sheet == 0}
-    <button on:click={zoomIn}>+</button>
-    <button on:click={zoomOut}>-</button>
-    <button on:click={reset}>Reset zoom</button>
-{/if}
+<button on:click={zoomIn} disabled={sheet == 0 ? false : true}>+</button>
+<button on:click={zoomOut} disabled={sheet == 0 ? false : true}>-</button>
+<button on:click={reset} disabled={sheet == 0 ? false : true}>Reset zoom</button
+>
+
 <div class="vis-wrapper">
     <svg
         bind:this={scatterplot}
@@ -439,7 +443,7 @@
         {height}
         on:click={() => {
             reset();
-            setTimeout(increaseSheet,350);
+            setTimeout(increaseSheet, 350);
         }}
     >
     </svg>
