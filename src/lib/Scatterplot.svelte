@@ -221,10 +221,20 @@
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
                 focus = d;
-                d3.select(e.currentTarget).attr("r", 10);
+                console.log(parseInt(e.currentTarget.attributes.r.value))
+                d3.select(e.currentTarget).attr("fill","grey");
             })
             .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
-                d3.select(e.currentTarget).attr("r", 7);
+                d3.select(e.currentTarget).attr("fill",(
+                    /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
+                ) => {
+                    if (d) {
+                        if (d.in_wantlist <= d.in_collection) {
+                            return "orange";
+                        }
+                        return "blue";
+                    }
+                });
             })
             .transition()
             .duration(700)
