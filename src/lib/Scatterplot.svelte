@@ -185,6 +185,7 @@
     $: data, buildScatter();
 
     function buildScatter() {
+        sheet = 0;
         d3.select(scatterplot).selectAll("*").remove();
         recalcVisUtils();
 
