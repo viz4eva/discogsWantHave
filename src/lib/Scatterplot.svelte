@@ -9,11 +9,11 @@
     /**
      * @type {number}
      */
-     export let sheet;
-     /**
+    export let sheet;
+    /**
      * @type {boolean}
      */
-      export let explorative;
+    export let explorative;
 
     const width = 650;
     const height = width;
@@ -69,6 +69,14 @@
      * @type {() => void}
      */
     let reset;
+    /**
+     * @type {() => void}
+     */
+    let zoomIn;
+    /**
+     * @type {() => void}
+     */
+    let zoomOut;
 
     function recalcVisUtils() {
         releases = data.items.map(
@@ -213,10 +221,10 @@
             )
             .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
                 focus = d;
-                d3.select(e.currentTarget).attr("r",10)
+                d3.select(e.currentTarget).attr("r", 10);
             })
             .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
-                d3.select(e.currentTarget).attr("r",7)
+                d3.select(e.currentTarget).attr("r", 7);
             })
             .transition()
             .duration(700)
@@ -237,44 +245,56 @@
 
         // @ts-ignore
         function zoomed({ transform }) {
-            if(sheet == 0) {
+            if (sheet == 0) {
                 const zx = transform
-                .rescaleX(xScale)
-                .interpolate(d3.interpolateRound);
-            const zy = transform
-                .rescaleY(yScale)
-                .interpolate(d3.interpolateRound);
-            g.attr("transform", transform);
-            d3.selectAll("circle")
-                .attr("r", 7 / transform.k)
-                .attr("stroke-width", 1 / transform.k);
-            line.attr("transform", transform).attr(
-                "stroke-width",
-                3 / transform.k,
-            );
-            gx.call(xAxis, zx);
-            gy.call(yAxis, zy);
-
+                    .rescaleX(xScale)
+                    .interpolate(d3.interpolateRound);
+                const zy = transform
+                    .rescaleY(yScale)
+                    .interpolate(d3.interpolateRound);
+                g.attr("transform", transform);
+                d3.selectAll("circle")
+                    .attr("r", 7 / transform.k)
+                    .attr("stroke-width", 1 / transform.k);
+                line.attr("transform", transform).attr(
+                    "stroke-width",
+                    3 / transform.k,
+                );
+                gx.call(xAxis, zx);
+                gy.call(yAxis, zy);
             }
-            
         }
 
         reset = function () {
+            
             d3.select(scatterplot)
                 .transition()
-                .duration(750)
+                .duration(300)
                 .call(zoom.transform, d3.zoomIdentity);
+                console.log("jooo");
+        };
+
+        zoomIn = function () {
+            zoom.scaleBy(d3.select(scatterplot), 2, [margin, height - margin]);
+        };
+
+        zoomOut = function () {
+            zoom.scaleBy(d3.select(scatterplot), 0.5, [
+                margin,
+                height - margin,
+            ]);
         };
     }
 
     function increaseSheet() {
-        if(explorative) {
+        reset();
+        if (explorative) {
             d3.selectAll(".overlay").remove();
-        if (sheet < 2) {
-            sheet++;
-        } else {
-            sheet = 0;
-        }
+            if (sheet < 2) {
+                sheet++;
+            } else {
+                sheet = 0;
+            }
         }
     }
     $: if (sheet === 1) {
@@ -327,7 +347,6 @@
         },
     ];
     function toggleRectOverlay() {
-        reset();
         const overlay = d3
             .select(scatterplot)
             .selectAll("rect")
@@ -407,14 +426,21 @@
     }
 </script>
 
-<button on:click={reset}>Reset zoom</button>
+{#if sheet == 0}
+    <button on:click={zoomIn}>+</button>
+    <button on:click={zoomOut}>-</button>
+    <button on:click={reset}>Reset zoom</button>
+{/if}
 <div class="vis-wrapper">
     <svg
         bind:this={scatterplot}
         id="scatter-vis"
         {width}
         {height}
-        on:click={increaseSheet}
+        on:click={() => {
+            reset();
+            setTimeout(increaseSheet,350);
+        }}
     >
     </svg>
 
