@@ -78,6 +78,66 @@
      */
     let zoomOut;
 
+    const triangleOverlayData = [
+        {
+            path: `${margin},0 ${width},0 ${margin},${height - margin}`,
+            fill: "orange",
+            text: "More people have it",
+            textX: margin + 10,
+            textY: 30,
+        },
+        {
+            path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
+            fill: "blue",
+            text: "More people want it",
+            textX: width / 2 + 10,
+            textY: height - margin - 10,
+        },
+    ];
+
+    const rectOverlayData = [
+        {
+            x: margin,
+            y: 0,
+            width: width / 2 - margin + 10,
+            height: height / 2 - 10,
+            fill: "#00509d",
+            textX: width * 0.25 - margin,
+            textY: height * 0.25,
+            text: "saturated",
+        },
+        {
+            x: width / 2 + 10,
+            y: 0,
+            width: width / 2,
+            height: height / 2 - 10,
+            fill: "#ffd500",
+            textX: width * 0.75 - margin,
+            textY: height * 0.25,
+            text: "popular",
+        },
+        {
+            x: margin,
+            y: height / 2 - 10,
+            width: width / 2 - margin + 10,
+            height: height / 2 - margin + 10,
+            fill: "#ddd",
+            textX: width * 0.25 - 20,
+            textY: height * 0.75,
+            text: "basic",
+        },
+        {
+            x: width / 2 + 10,
+            y: height / 2 - 10,
+            width: width / 2,
+            height: height / 2 - margin + 10,
+            fill: "#eb5e28",
+            textX: width * 0.75 - margin - 20,
+            textY: height * 0.75,
+            text: "super rare",
+        },
+    ];
+
     function recalcVisUtils() {
         releases = data.items.map(
             (
@@ -127,6 +187,66 @@
     function buildScatter() {
         d3.select(scatterplot).selectAll("*").remove();
         recalcVisUtils();
+
+        const triangleOverlay = d3
+            .select(scatterplot)
+            .selectAll("polygon")
+            .data(triangleOverlayData)
+            .join("polygon")
+            .classed("triangle", true)
+            .attr("points", (/** @type {{ path: any; }} */ d) => d.path)
+            .attr("stroke", "none")
+            .attr("fill", (/** @type {any[]} */ d) => d.fill)
+            .attr("opacity", 0);
+
+        triangleOverlay.each(
+            (
+                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
+            ) => {
+                d3.select(scatterplot)
+                    .append("text")
+                    .text(elem.text)
+                    .classed("triangleText", true)
+                    .attr("x", elem.textX)
+                    .attr("y", elem.textY)
+                    .attr("fill", elem.fill)
+                    .attr("stroke", "#777")
+                    .attr("font-size", 30)
+                    .attr("font-family", "monospace")
+                    .attr("opacity",0);
+            },
+        );
+
+        const rectOverlay = d3
+            .select(scatterplot)
+            .selectAll("rect")
+            .data(rectOverlayData)
+            .join("rect")
+            .classed("rectangle", true)
+            .attr("x", (/** @type {{ x: any; }} */ d) => d.x)
+            .attr("y", (/** @type {{ y: any; }} */ d) => d.y)
+            .attr("width", (/** @type {{ width: any; }} */ d) => d.width)
+            .attr("height", (/** @type {{ height: any; }} */ d) => d.height)
+            .attr("fill", (/** @type {any[]} */ d) => d.fill)
+            .attr("opacity", 0);
+
+        rectOverlay.each(
+            (
+                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
+            ) => {
+                d3.select(scatterplot)
+                    .append("text")
+                    .text(elem.text)
+                    .attr("x", elem.textX)
+                    .attr("y", elem.textY)
+                    .attr("fill", elem.fill)
+                    .attr("stroke", "#777")
+                    .attr("font-size", 45)
+                    .attr("font-family", "monospace")
+                    .classed("rectangleText", true)
+                    .attr("opacity",0);
+            },
+        );
 
         const zoom = d3.zoom().scaleExtent([0, 50]).on("zoom", zoomed);
 
@@ -297,11 +417,16 @@
                 height - margin,
             ]);
         };
+
+        
     }
 
     function increaseSheet() {
+        d3.selectAll(".triangle").attr("opacity",0);
+        d3.selectAll(".triangleText").attr("opacity",0);
+        d3.selectAll(".rectangle").attr("opacity",0);
+        d3.selectAll(".rectangleText").attr("opacity",0);
         if (explorative) {
-           d3.selectAll(".overlay").remove();
             if (sheet < 2) {
                 sheet++;
             } else {
@@ -316,128 +441,19 @@
         toggleRectOverlay();
     }
 
-    const overlayData = [
-        {
-            x: margin,
-            y: 0,
-            width: width / 2 - margin + 10,
-            height: height / 2 - 10,
-            fill: "#00509d",
-            textX: width * 0.25 - margin,
-            textY: height * 0.25,
-            text: "saturated",
-        },
-        {
-            x: width / 2 + 10,
-            y: 0,
-            width: width / 2,
-            height: height / 2 - 10,
-            fill: "#ffd500",
-            textX: width * 0.75 - margin,
-            textY: height * 0.25,
-            text: "popular",
-        },
-        {
-            x: margin,
-            y: height / 2 - 10,
-            width: width / 2 - margin + 10,
-            height: height / 2 - margin + 10,
-            fill: "#ddd",
-            textX: width * 0.25 - 20,
-            textY: height * 0.75,
-            text: "basic",
-        },
-        {
-            x: width / 2 + 10,
-            y: height / 2 - 10,
-            width: width / 2,
-            height: height / 2 - margin + 10,
-            fill: "#eb5e28",
-            textX: width * 0.75 - margin - 20,
-            textY: height * 0.75,
-            text: "super rare",
-        },
-    ];
     function toggleRectOverlay() {
-        const overlay = d3
-            .select(scatterplot)
-            .selectAll("rect")
-            .data(overlayData)
-            .join("rect")
-            .classed("overlay", true)
-            .attr("x", (/** @type {{ x: any; }} */ d) => d.x)
-            .attr("y", (/** @type {{ y: any; }} */ d) => d.y)
-            .attr("width", (/** @type {{ width: any; }} */ d) => d.width)
-            .attr("height", (/** @type {{ height: any; }} */ d) => d.height)
-            .attr("fill", (/** @type {any[]} */ d) => d.fill)
-            .attr("opacity", 0.3);
-
-        overlay.each(
-            (
-                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
-            ) => {
-                d3.select(scatterplot)
-                    .append("text")
-                    .text(elem.text)
-                    .attr("x", elem.textX)
-                    .attr("y", elem.textY)
-                    .attr("fill", elem.fill)
-                    .attr("stroke", "#777")
-                    .attr("font-size", 45)
-                    .attr("font-family", "monospace")
-                    .classed("overlay", true);
-            },
-        );
+        d3.selectAll(".triangle").attr("opacity",0);
+        d3.selectAll(".triangleText").attr("opacity",0);
+        d3.selectAll(".rectangle").attr("opacity",0.2);
+        d3.selectAll(".rectangleText").attr("opacity",1);
     }
-
-    const triangleOverlayData = [
-        {
-            path: `${margin},0 ${width},0 ${margin},${height - margin}`,
-            fill: "orange",
-            text: "More people have it",
-            textX: margin + 10,
-            textY: 30,
-        },
-        {
-            path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
-            fill: "blue",
-            text: "More people want it",
-            textX: width / 2 + 10,
-            textY: height - margin - 10,
-        },
-    ];
 
     function toggleTriangleOverlay() {
-        const overlay = d3
-            .select(scatterplot)
-            .selectAll("polygon")
-            .data(triangleOverlayData)
-            .join("polygon")
-            .classed("overlay", true)
-            .attr("points", (/** @type {{ path: any; }} */ d) => d.path)
-            .attr("stroke", "none")
-            .attr("fill", (/** @type {any[]} */ d) => d.fill)
-            .attr("opacity", 0.2);
-
-            console.log(overlay);
-
-        overlay.each(
-            (
-                /** @type {{ text: any; textX: any; textY: any; fill: any; }} */ elem,
-            ) => {
-                d3.select(scatterplot)
-                    .append("text")
-                    .text(elem.text)
-                    .attr("x", elem.textX)
-                    .attr("y", elem.textY)
-                    .attr("fill", elem.fill)
-                    .attr("stroke", "#777")
-                    .attr("font-size", 30)
-                    .attr("font-family", "monospace")
-                    .classed("overlay", true);
-            },
-        );
-    }
+        d3.selectAll(".rectangle").attr("opacity",0);
+        d3.selectAll(".rectangleText").attr("opacity",0);
+        d3.selectAll(".triangle").attr("opacity",0.2);
+        d3.selectAll(".triangleText").attr("opacity",1);
+    }    
 </script>
 
 {#if explorative}

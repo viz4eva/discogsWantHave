@@ -57,8 +57,23 @@
         });
 
         // update graphic based on step
-        d3.selectAll(".overlay").remove();
+        if (response.index != 2) {
+            d3.selectAll(".triangle").attr("opacity", 0);
+            d3.selectAll(".triangleText").attr("opacity", 0);
+            d3.selectAll(".rectangle").attr("opacity", 0);
+            d3.selectAll(".rectangleText").attr("opacity", 0);
+        }
         sheet = response.index;
+    }
+
+    function handleStepExit(response) {
+        if(response.index == 2) {
+            sheet = 0;
+            d3.selectAll(".triangle").attr("opacity", 0);
+            d3.selectAll(".triangleText").attr("opacity", 0);
+            d3.selectAll(".rectangle").attr("opacity", 0);
+            d3.selectAll(".rectangleText").attr("opacity", 0);
+        }
     }
 
     function init() {
@@ -74,7 +89,8 @@
                 offset: 0.5,
                 debug: false,
             })
-            .onStepEnter(handleStepEnter);
+            .onStepEnter(handleStepEnter)
+            .onStepExit(handleStepExit);
     }
 </script>
 
