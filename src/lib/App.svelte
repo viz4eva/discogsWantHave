@@ -91,7 +91,7 @@
             alt="spinning record with rare written on the label"
             width="50%"
             class="lower-record-right"
-             style="margin-left:50vw;margin-top:200px;"
+             style="margin-left:50vw;margin-top:100px;"
         />
     
         
