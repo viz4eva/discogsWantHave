@@ -27,6 +27,22 @@
                 scrub: 2
             },
         });
+        gsap.to(".lower-record-left", {
+            rotation: -720, // Rotate to 360 degrees
+            ease: "none", // No easing for a smooth continuous rotation
+            scrollTrigger: {
+                trigger: ".lower-record-left",
+                scrub: 2
+            },
+        });
+        gsap.to(".lower-record-right", {
+            rotation: 360, // Rotate to 360 degrees
+            ease: "none", // No easing for a smooth continuous rotation
+            scrollTrigger: {
+                trigger: ".lower-record-right",
+                scrub: 2
+            },
+        });
     });
 </script>
 
@@ -51,19 +67,25 @@
         src="2d comic.gif"
         alt="spinning record with disco written on the label"
         width="70%"
-        class="spinning-image record-left"
+        class="record-right"
     />
     <img
         src="2d_hihi.gif"
         alt="spinning record with a smiley face on the label"
         width="50%"
-        class="spinning-image record-right"
+        class="record-left"
     />
 </div>
 
 <Scrolltest {discoClassics} />
 
 <div id="explore">
+    <img
+        src="2d_rare.gif"
+        alt="spinning record with rare written on the label"
+        width="40%"
+        class="lower-record-right"
+    />
     <p>
         Now that you know how this visualiuation works, you can explore
         different other user-created lists published on Discgos. This first
@@ -75,6 +97,12 @@
         Click anywhere in the chart to display the explaning overlays from
         earlier.
     </p>
+    <img
+    src="2d_hihi.gif"
+    alt="spinning record with a smiley face on the label"
+    width="20%"
+    class="lower-record-left"
+/>
 </div>
 
 <select bind:value={selectedList}>
@@ -97,6 +125,13 @@
         font-size: large;
         margin: 20vh;
         margin-bottom: 50vh;
+    }
+
+    #explore {
+        width: 50vw;
+        text-align: justify;
+        font-size: large;
+        margin: 10vh;
     }
 
     select {

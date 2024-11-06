@@ -67,7 +67,7 @@
     }
 
     function handleStepExit(response) {
-        if(response.index == 2) {
+        if (response.index == 2) {
             sheet = 0;
             d3.selectAll(".triangle").attr("opacity", 0);
             d3.selectAll(".triangleText").attr("opacity", 0);
@@ -116,8 +116,8 @@
                     Wants than Haves.
                 </p>
                 <p>
-                    We can see that this list includes more releases with
-                    Wants exceeding the Haves.
+                    We can see that this list includes more releases with Wants
+                    exceeding the Haves.
                 </p>
             </div>
             <div class="step" data-step="3">
