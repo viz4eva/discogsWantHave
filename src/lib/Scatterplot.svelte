@@ -486,12 +486,10 @@
     .vis-wrapper {
         display: flex;
         gap: 25px;
-        padding-bottom: 100px;
     }
 
     svg {
         margin: 20px;
-        cursor: pointer;
     }
 
     #detail-section {
