@@ -9,8 +9,7 @@
 <style>
     main {
         margin: 5vw;
-        margin-top: 5vw;
-        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         font-size: large;
     }
 </style>

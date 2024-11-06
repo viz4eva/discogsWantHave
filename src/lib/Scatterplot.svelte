@@ -445,14 +445,14 @@
     function toggleRectOverlay() {
         d3.selectAll(".triangle").transition().duration(500).attr("opacity",0);
         d3.selectAll(".triangleText").transition().duration(500).attr("opacity",0);
-        d3.selectAll(".rectangle").transition().duration(500).attr("opacity",0.2);
+        d3.selectAll(".rectangle").transition().duration(500).attr("opacity",0.3);
         d3.selectAll(".rectangleText").transition().duration(500).attr("opacity",1);
     }
 
     function toggleTriangleOverlay() {
         d3.selectAll(".rectangle").transition().duration(500).attr("opacity",0);
         d3.selectAll(".rectangleText").transition().duration(500).attr("opacity",0);
-        d3.selectAll(".triangle").transition().duration(500).attr("opacity",0.2);
+        d3.selectAll(".triangle").transition().duration(500).attr("opacity",0.3);
         d3.selectAll(".triangleText").transition().duration(500).attr("opacity",1);
     }    
 </script>

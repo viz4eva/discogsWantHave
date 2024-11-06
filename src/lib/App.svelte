@@ -46,6 +46,7 @@
     });
 </script>
 
+<img src="schrift.gif" alt="Heading" width="50%" id="heading" />
 <div id="intro">
     <div class="two-col">
         <img
@@ -53,10 +54,9 @@
             alt="spinning record with disco written on the label"
             width="100%"
             class="record-right"
-            style="margin-top:30vh"
+            style="margin-top:10vh"
         />
         <div>
-            <h3>Discogs Most Wanted</h3>
             <p>
                 <a href="https://www.discogs.com/" target="_blank">Discogs</a> is
                 a free, community-based data base for discographies and trading platform
@@ -133,7 +133,8 @@
     </p>
     <p>
         This data-driven story sketch was designed and implemented by Eva
-        Haimerl using Svelte, d3.js, scrollama and gsap. The code is available on GitHub.
+        Haimerl using Svelte, d3.js, scrollama and gsap. The code is available
+        on GitHub.
     </p>
 </div>
 
@@ -142,7 +143,6 @@
         width: 60vw;
         text-align: justify;
         font-size: large;
-        margin: 20vh;
         margin-bottom: 30vh;
     }
 
@@ -165,20 +165,35 @@
         grid-template-columns: 40% 60%;
     }
 
-    h3 {
-        padding-bottom: 1rem;
-        font-size: 3.5rem;
-        text-align: left;
-    }
-
     #scrollmessage {
         text-align: center;
         padding-top: 1rem;
         font-size: medium;
+        animation: hoverUpDown 3s ease-in-out infinite;
+    }
+
+    /* Keyframes for the hover animation */
+    @keyframes hoverUpDown {
+        0%,
+        100% {
+            transform: translateY(-10px);
+            color: rgb(255, 214, 214);
+        }
+        50% {
+            transform: translateY(0);
+            color: rgb(241, 115, 115);
+        }
     }
 
     .credits {
         padding-top: 3rem;
         font-size: small;
+    }
+    p {
+        line-height: 2rem;
+    }
+
+    #heading {
+        margin-left: 10vw;
     }
 </style>
