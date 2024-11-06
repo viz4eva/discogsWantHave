@@ -24,7 +24,9 @@
     <p>
         Scroll to have a look!
     </p>
+    <img src="2d comic.gif" alt="spinning record with disco written on the label" width="50%" class="spinning-image" id="spinningImage">
 </div>
+
 
 
 <Scrolltest {discoClassics}/>
@@ -54,8 +56,9 @@
     #intro {
         width: 50vw;
         text-align: justify;
-        margin-bottom: 2rem;
         font-size: large;
+        margin: 20vh;
+        margin-bottom: 50vh;
     }
 
     select {
