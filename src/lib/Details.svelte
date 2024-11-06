@@ -19,9 +19,12 @@
 
 <style>
     .detail-section {
-        background-color: aliceblue;
-        padding: 30px;
+        padding: 20px;
         border-radius: 10px;
+        border: 1px solid #777;
+        background: rgb(248,254,197);
+        background: radial-gradient(circle, rgba(248,254,197,1) 0%, rgb(252, 245, 245) 100%); 
+        font-size: medium;
     }
 
     .bold {

@@ -158,7 +158,7 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
-        padding: 0;
+        padding-left: 3rem;
     }
 
     #scrolly > * {
@@ -194,7 +194,7 @@
         text-align: left;
         padding: 1rem;
         width: 200px;
-        font-size: medium;
+        font-size: large;
         padding-top: 50px;
     }
 </style>

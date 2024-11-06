@@ -10,7 +10,7 @@
     main {
         margin: 5vw;
         margin-top: 5vw;
-        font-family:Verdana, Geneva, Tahoma, sans-serif;
-        font-size: medium;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-size: large;
     }
 </style>

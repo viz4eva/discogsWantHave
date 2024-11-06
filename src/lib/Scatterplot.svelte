@@ -81,14 +81,14 @@
     const triangleOverlayData = [
         {
             path: `${margin},0 ${width},0 ${margin},${height - margin}`,
-            fill: "orange",
+            fill: "#FFAE85",
             text: "More people have it",
             textX: margin + 10,
             textY: 30,
         },
         {
             path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
-            fill: "blue",
+            fill: "#1C29E1",
             text: "More people want it",
             textX: width / 2 + 20,
             textY: height - margin - 10,
@@ -211,7 +211,7 @@
                     .attr("x", elem.textX)
                     .attr("y", elem.textY)
                     .attr("fill", elem.fill)
-                    .attr("stroke", "#777")
+                    .attr("stroke", "black")
                     .attr("font-size", 20)
                     .attr("font-family", "monospace")
                     .attr("opacity",0);
@@ -309,15 +309,15 @@
                 ) => {
                     if (d) {
                         if (d.in_wantlist <= d.in_collection) {
-                            return "orange";
+                            return "#FFAE85";
                         }
-                        return "blue";
+                        return "#1C29E1";
                     }
                 },
             )
-            .attr("opacity", 0.6)
-            .attr("stroke", "#555")
-            .attr("stroke-width", 1)
+            .attr("opacity", 0.7)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2)
             .attr(
                 "cx",
                 (
@@ -351,15 +351,15 @@
                 ) => {
                     if (d) {
                         if (d.in_wantlist <= d.in_collection) {
-                            return "orange";
+                            return "#FFAE85";
                         }
-                        return "blue";
+                        return "#1C29E1";
                     }
                 });
             })
             .transition()
-            .duration(700)
-            .attr("r", 6);
+            .duration(900)
+            .attr("r", 5);
 
         let line = d3
             .select(scatterplot)
@@ -390,7 +390,7 @@
                     .interpolate(d3.interpolateRound);
                 g.attr("transform", transform);
                 d3.selectAll("circle")
-                    .attr("r", 7 / transform.k)
+                    .attr("r", 5 / transform.k)
                     .attr("stroke-width", 1 / transform.k);
                 line.attr("transform", transform).attr(
                     "stroke-width",
@@ -494,5 +494,12 @@
 
     #detail-section {
         width: 15vw;
+    }
+
+    button {
+        border: 1px solid #777;
+        border-radius: 10px;
+        padding: 10px;
+        background: rgb(247, 250, 214);
     }
 </style>

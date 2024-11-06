@@ -70,7 +70,7 @@
                 there might be also those, which many collectors already have
                 and few still want and other flavours of demand.
             </p>
-            <p>Scroll to have a look!</p>
+            <p id="scrollmessage">Scroll down to have a look!</p>
         </div>
     </div>
 
@@ -87,28 +87,26 @@
 
 <div id="explore">
     <img
-            src="2d_rare.gif"
-            alt="spinning record with rare written on the label"
-            width="50%"
-            class="lower-record-right"
-             style="margin-left:50vw;margin-top:100px;"
-        />
-    
-        
-        <div>
-            <p>
-                Now that you know how this visualiuation works, you can explore
-                different other user-created lists published on Discgos. This
-                first selected example list is called "rare + played by great
-                djs!". And indeed, most releases in there have many more Wants
-                than Haves. We can see quite a few super rare outliers.
-            </p>
-            <p>
-                Click anywhere in the chart to display the explaning overlays
-                from earlier.
-            </p>
-        </div>
+        src="2d_rare.gif"
+        alt="spinning record with rare written on the label"
+        width="50%"
+        class="lower-record-right"
+        style="margin-left:50vw;margin-top:100px;"
+    />
 
+    <div>
+        <p>
+            Now that you know how this visualiuation works, you can explore
+            different other user-created lists published on Discgos. This first
+            selected example list is called "rare + played by great djs!". And
+            indeed, most releases in there have many more Wants than Haves. We
+            can see quite a few super rare outliers.
+        </p>
+        <p>
+            Click anywhere in the chart to display the explaning overlays from
+            earlier.
+        </p>
+    </div>
 
     <img
         src="2d_hihi.gif"
@@ -126,11 +124,18 @@
 </select>
 <Scatterplot data={selectedList} sheet={0} explorative={true} />
 
-<p>
-    Data Source: <a href="https://www.discogs.com/developers/#" target="_blank"
-        >Discogs API</a
-    >
-</p>
+<div class="credits">
+    <p>
+        Data Source: <a
+            href="https://www.discogs.com/developers/#"
+            target="_blank">Discogs API</a
+        >
+    </p>
+    <p>
+        This data-driven story sketch was designed and implemented by Eva
+        Haimerl using Svelte, d3.js, scrollama and gsap. The code is available on GitHub.
+    </p>
+</div>
 
 <style>
     #intro {
@@ -149,14 +154,31 @@
     }
 
     select {
-        border: none;
+        border: 1px solid #777;
         border-radius: 10px;
         padding: 10px;
-        background-color: rgb(232, 241, 241);
+        background: rgb(247, 249, 223);
     }
 
     .two-col {
         display: grid;
         grid-template-columns: 40% 60%;
+    }
+
+    h3 {
+        padding-bottom: 1rem;
+        font-size: 3.5rem;
+        text-align: left;
+    }
+
+    #scrollmessage {
+        text-align: center;
+        padding-top: 1rem;
+        font-size: medium;
+    }
+
+    .credits {
+        padding-top: 3rem;
+        font-size: small;
     }
 </style>
