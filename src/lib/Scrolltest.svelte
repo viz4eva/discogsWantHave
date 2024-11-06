@@ -67,13 +67,17 @@
     }
 
     function handleStepExit(response) {
-        if (response.index == 2) {
+        setTimeout(() => {
+            if (response.index == 2) {
             sheet = 0;
             d3.selectAll(".triangle").attr("opacity", 0);
             d3.selectAll(".triangleText").attr("opacity", 0);
             d3.selectAll(".rectangle").attr("opacity", 0);
             d3.selectAll(".rectangleText").attr("opacity", 0);
         }
+
+        }, 800)
+        
     }
 
     function init() {
@@ -146,8 +150,6 @@
             <Scatterplot data={selectedList} {sheet} explorative={false} />
         </figure>
     </section>
-
-    <section id="outro"></section>
 </main>
 
 <style>
@@ -174,21 +176,18 @@
     figure {
         position: -webkit-sticky;
         position: sticky;
+        bottom: 0;
         width: 100%;
-        height: 100vh;
-        margin-bottom: 100px;
+        margin-bottom: 300px;
         -webkit-transform: translate3d(0, 0, 0);
         -moz-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
         z-index: 0;
+        margin: 0;
     }
 
     .step {
         margin: 0 auto 2rem auto;
-    }
-
-    .step:last-child {
-        margin-bottom: 0;
     }
 
     .step p {

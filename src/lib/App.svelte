@@ -53,7 +53,7 @@
             alt="spinning record with disco written on the label"
             width="100%"
             class="record-right"
-            style="margin-top:10vh"
+            style="margin-top:30vh"
         />
         <div>
             <h3>Discogs Most Wanted</h3>
@@ -91,7 +91,7 @@
             alt="spinning record with rare written on the label"
             width="50%"
             class="lower-record-right"
-             style="margin-left:50vw;"
+             style="margin-left:50vw;margin-top:200px;"
         />
     
         

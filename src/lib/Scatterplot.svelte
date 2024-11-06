@@ -15,7 +15,7 @@
      */
     export let explorative;
 
-    const width = 650;
+    const width = 480;
     const height = width;
     const margin = width / 10;
     const textMargin = margin - 20;
@@ -90,7 +90,7 @@
             path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
             fill: "blue",
             text: "More people want it",
-            textX: width / 2 + 10,
+            textX: width / 2 + 20,
             textY: height - margin - 10,
         },
     ];
@@ -212,7 +212,7 @@
                     .attr("y", elem.textY)
                     .attr("fill", elem.fill)
                     .attr("stroke", "#777")
-                    .attr("font-size", 30)
+                    .attr("font-size", 20)
                     .attr("font-family", "monospace")
                     .attr("opacity",0);
             },
@@ -242,7 +242,7 @@
                     .attr("y", elem.textY)
                     .attr("fill", elem.fill)
                     .attr("stroke", "#777")
-                    .attr("font-size", 45)
+                    .attr("font-size", 30)
                     .attr("font-family", "monospace")
                     .classed("rectangleText", true)
                     .attr("opacity",0);
@@ -282,7 +282,7 @@
             .append("text")
             .attr("text-anchor", "end")
             .attr("y", height - textMargin + 10)
-            .attr("x", width - textMargin + 40)
+            .attr("x", width - textMargin + 20)
             .attr("font-weight", "bolder")
             .text("Want");
 
@@ -290,7 +290,7 @@
             .append("text")
             .attr("text-anchor", "end")
             .attr("y", textMargin)
-            .attr("x", textMargin)
+            .attr("x", textMargin + 19)
             .attr("font-weight", "bolder")
             .text("Have");
 
@@ -485,7 +485,7 @@
 <style>
     .vis-wrapper {
         display: flex;
-        gap: 25px;
+        gap: 0.5rem;
     }
 
     svg {
