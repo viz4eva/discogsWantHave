@@ -1,3 +1,5 @@
+//computes dimensions for scatterplot visualization incl. overlays
+
 export const width = 600;
 export const height = width;
 export const margin = width / 10;
