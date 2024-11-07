@@ -2,7 +2,7 @@
     // @ts-nocheck
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
-    import Scrolltest from "./Scrolltest.svelte";
+    import Scroll from "./Scroll.svelte";
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
     import { onMount } from "svelte";
@@ -83,7 +83,7 @@
     />
 </div>
 
-<Scrolltest {discoClassics} />
+<Scroll {discoClassics} />
 
 <div id="explore">
     <img
@@ -91,7 +91,7 @@
         alt="spinning record with rare written on the label"
         width="50%"
         class="lower-record-right"
-        style="margin-left:50vw;margin-top:100px;"
+        style="margin-left:50vw;margin-top:200px;"
     />
 
     <div>
@@ -140,7 +140,7 @@
 
 <style>
     #intro {
-        width: 60vw;
+        width: 80vw;
         text-align: justify;
         font-size: large;
         margin-bottom: 30vh;

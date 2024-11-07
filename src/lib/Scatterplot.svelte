@@ -15,7 +15,7 @@
      */
     export let explorative;
 
-    const width = 480;
+    const width = 600;
     const height = width;
     const margin = width / 10;
     const textMargin = margin - 20;
@@ -359,7 +359,7 @@
             })
             .transition()
             .duration(900)
-            .attr("r", 5);
+            .attr("r", 7);
 
         let line = d3
             .select(scatterplot)
@@ -390,7 +390,7 @@
                     .interpolate(d3.interpolateRound);
                 g.attr("transform", transform);
                 d3.selectAll("circle")
-                    .attr("r", 5 / transform.k)
+                    .attr("r", 7 / transform.k)
                     .attr("stroke-width", 1 / transform.k);
                 line.attr("transform", transform).attr(
                     "stroke-width",

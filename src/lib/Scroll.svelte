@@ -15,48 +15,30 @@
     let sheet = 0;
     let selectedList = discoClassics;
 
-    // kick things off
     onMount(() => {
-        // using d3 for convenience
+        //setup scrollytelling
         main = d3.select("main");
         scrolly = main.select("#scrolly");
         figure = scrolly.select("figure");
         article = scrolly.select("article");
         step = article.selectAll(".step");
-
-        // initialize the scrollama
         scroller = scrollama();
         init();
     });
 
-    // generic window resize listener event
+   
     function handleResize() {
-        // 1. update height of step elements
         let stepH = Math.floor(window.innerHeight * 0.75);
         step.style("height", stepH + "px");
-
         let figureHeight = window.innerHeight / 2;
-        let figureMarginTop = (window.innerHeight - figureHeight) / 2;
-
+        let figureMarginTop = window.innerHeight / 8;
         figure
             .style("height", figureHeight + "px")
             .style("top", figureMarginTop + "px");
-
-        // 3. tell scrollama to update new element dimensions
         scroller.resize();
     }
 
-    // scrollama event handlers
     function handleStepEnter(response) {
-        //console.log(response);
-        // response = { element, direction, index }
-
-        // add color to current step only
-        step.classed("is-active", function (d, i) {
-            return i === response.index;
-        });
-
-        // update graphic based on step
         if (response.index != 2) {
             d3.selectAll(".triangle").attr("opacity", 0);
             d3.selectAll(".triangleText").attr("opacity", 0);
@@ -81,12 +63,7 @@
     }
 
     function init() {
-        // 1. force a resize on load to ensure proper dimensions are sent to scrollama
         handleResize();
-
-        // 2. setup the scroller passing options
-        // 		this will also initialize trigger observations
-        // 3. bind scrollama event handlers (this can be chained like below)
         scroller
             .setup({
                 step: "#scrolly article .step",
