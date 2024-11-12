@@ -83,7 +83,7 @@
     />
 </div>
 
-<Scroll {discoClassics} />
+<Scroll />
 
 <div id="explore">
     <img

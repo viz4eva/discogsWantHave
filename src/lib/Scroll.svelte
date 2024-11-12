@@ -70,7 +70,7 @@
                     uri: "init",
                 });
             }
-        }, 800);
+        }, 300);
     }
 
     function init() {
