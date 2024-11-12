@@ -5,6 +5,7 @@
     import { onMount } from "svelte";
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
+    import { focus } from "./store";
 
     let main;
     let scrolly;
@@ -26,7 +27,6 @@
         init();
     });
 
-   
     function handleResize() {
         let stepH = Math.floor(window.innerHeight * 0.75);
         step.style("height", stepH + "px");
@@ -44,6 +44,13 @@
             d3.selectAll(".triangleText").attr("opacity", 0);
             d3.selectAll(".rectangle").attr("opacity", 0);
             d3.selectAll(".rectangleText").attr("opacity", 0);
+        } else if (response.direction == "up") {
+            focus.set({
+                title: "init",
+                in_wantlist: "init",
+                in_collection: "init",
+                uri: "init",
+            });
         }
         sheet = response.index;
     }
@@ -51,15 +58,19 @@
     function handleStepExit(response) {
         setTimeout(() => {
             if (response.index == 2) {
-            sheet = 0;
-            d3.selectAll(".triangle").attr("opacity", 0);
-            d3.selectAll(".triangleText").attr("opacity", 0);
-            d3.selectAll(".rectangle").attr("opacity", 0);
-            d3.selectAll(".rectangleText").attr("opacity", 0);
-        }
-
-        }, 800)
-        
+                sheet = 0;
+                d3.selectAll(".triangle").attr("opacity", 0);
+                d3.selectAll(".triangleText").attr("opacity", 0);
+                d3.selectAll(".rectangle").attr("opacity", 0);
+                d3.selectAll(".rectangleText").attr("opacity", 0);
+                focus.set({
+                    title: "init",
+                    in_wantlist: "init",
+                    in_collection: "init",
+                    uri: "init",
+                });
+            }
+        }, 800);
     }
 
     function init() {
