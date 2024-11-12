@@ -4,11 +4,7 @@
     import Details from "./Details.svelte";
     import {
         width,
-        height,
-        margin,
-        textMargin,
-        rectOverlayData,
-        triangleOverlayData,
+        height
     } from "$lib/utils/vis_utils";
     import { buildScatter } from "$lib/utils/scatterplot_builder";
     import { focus } from "./store";
@@ -35,10 +31,10 @@
     let buttonSection;
 
     onMount(() => {
-        buildScatter(scatterplot, sheet, data, buttonSection);
+        buildScatter(scatterplot, data, buttonSection);
     });
 
-    $: data, buildScatter(scatterplot, sheet, data, buttonSection);
+    $: data, buildScatter(scatterplot, data, buttonSection);
 
     function increaseSheet() {
         d3.selectAll(".triangle").attr("opacity", 0);

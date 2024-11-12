@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { width, height, margin, textMargin, triangleOverlayData, rectOverlayData } from './vis_utils';
 import * as d3 from "d3";
-import {focus} from "../store";
+import { focus } from "../store";
 
 let maxWant;
 let maxHave;
@@ -49,8 +49,7 @@ function recalcVisUtils(data) {
     );
 }
 
-export const buildScatter = (scatterplot, sheet, data, buttonSection) => {
-    sheet = 0;
+export const buildScatter = (scatterplot, data, buttonSection) => {
     d3.select(scatterplot).selectAll("*").remove();
     recalcVisUtils(data);
 
@@ -245,24 +244,24 @@ export const buildScatter = (scatterplot, sheet, data, buttonSection) => {
 
     // @ts-ignore
     function zoomed({ transform }) {
-        if (sheet == 0) {
-            const zx = transform
-                .rescaleX(xScale)
-                .interpolate(d3.interpolateRound);
-            const zy = transform
-                .rescaleY(yScale)
-                .interpolate(d3.interpolateRound);
-            g.attr("transform", transform);
-            d3.selectAll("circle")
-                .attr("r", 7 / transform.k)
-                .attr("stroke-width", 1 / transform.k);
-            line.attr("transform", transform).attr(
-                "stroke-width",
-                3 / transform.k,
-            );
-            gx.call(xAxis, zx);
-            gy.call(yAxis, zy);
-        }
+
+        const zx = transform
+            .rescaleX(xScale)
+            .interpolate(d3.interpolateRound);
+        const zy = transform
+            .rescaleY(yScale)
+            .interpolate(d3.interpolateRound);
+        g.attr("transform", transform);
+        d3.selectAll("circle")
+            .attr("r", 7 / transform.k)
+            .attr("stroke-width", 1 / transform.k);
+        line.attr("transform", transform).attr(
+            "stroke-width",
+            3 / transform.k,
+        );
+        gx.call(xAxis, zx);
+        gy.call(yAxis, zy);
+
     }
 
     let reset = function () {
@@ -286,7 +285,7 @@ export const buildScatter = (scatterplot, sheet, data, buttonSection) => {
     const buttonStyle = "border: 1px solid #777;border-radius: 10px;padding: 10px;background: rgb(247, 250, 214);margin-right:5px;margin-bottom:10px;";
 
     d3.select(buttonSection).selectAll("button").remove();
-    d3.select(buttonSection).append("button").text("+").attr("style",buttonStyle).on("click", zoomIn);
-    d3.select(buttonSection).append("button").text("-").attr("style",buttonStyle).on("click", zoomOut);
-    d3.select(buttonSection).append("button").text("Reset zoom").attr("style",buttonStyle).on("click", reset);
+    d3.select(buttonSection).append("button").text("+").attr("style", buttonStyle).on("click", zoomIn);
+    d3.select(buttonSection).append("button").text("-").attr("style", buttonStyle).on("click", zoomOut);
+    d3.select(buttonSection).append("button").text("Reset zoom").attr("style", buttonStyle).on("click", reset);
 };
