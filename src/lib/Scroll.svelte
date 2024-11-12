@@ -56,8 +56,8 @@
     }
 
     function handleStepExit(response) {
-        setTimeout(() => {
-            if (response.index == 2) {
+        if (response.index == 2 && response.direction === "down") {
+            setTimeout(() => {
                 sheet = 0;
                 d3.selectAll(".triangle").attr("opacity", 0);
                 d3.selectAll(".triangleText").attr("opacity", 0);
@@ -69,8 +69,8 @@
                     in_collection: "init",
                     uri: "init",
                 });
-            }
-        }, 300);
+            }, 300);
+        }
     }
 
     function init() {
@@ -78,7 +78,7 @@
         scroller
             .setup({
                 step: "#scrolly article .step",
-                offset: 0.5,
+                offset: 0.7,
                 debug: false,
             })
             .onStepEnter(handleStepEnter)
