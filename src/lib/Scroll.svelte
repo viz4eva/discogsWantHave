@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
-    import { focus,sheet } from "./store";
+    import { focus, sheet } from "./store";
 
     let main;
     let scrolly;
@@ -91,8 +91,11 @@
             <div class="step" data-step="1">
                 <p>
                     This scatterplot visualizes the correlation of Wants and
-                    Haves for a selected user-created list Classic / 80s / Synth
-                    Pop / Italo Disco.
+                    Haves for a selected user-created list <a
+                        href="https://www.discogs.com/lists/Classics-80s-Synth-Pop-Italo-Disco/327384"
+                        target="_blank"
+                        >Classic / 80s / Synth Pop / Italo Disco</a
+                    >.
                 </p>
                 <p>
                     Each dot represents a release. Those with many Wants are

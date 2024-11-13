@@ -8,7 +8,7 @@
     <p>
         This data-driven story sketch was designed and implemented by Eva
         Haimerl using Svelte, d3.js, scrollama and gsap. The code is available
-        on GitHub.
+        on <a href="https://github.com/viz4eva/discogsWantHave" target="_blank">GitHub</a>.
     </p>
 </div>
 

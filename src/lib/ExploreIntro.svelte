@@ -18,7 +18,7 @@
         <p>
             Now that you know how this visualiuation works, you can explore
             different other user-created lists published on Discgos. This first
-            selected example list is called "rare + played by great djs!". And
+            selected example list is called <a href="https://www.discogs.com/lists/439152" target="_blank">rare + played by great djs!</a>. And
             indeed, most releases in there have many more Wants than Haves. We
             can see quite a few super rare outliers.
         </p>
