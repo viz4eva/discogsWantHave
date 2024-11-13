@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
     import Scatterplot from "./Scatterplot.svelte";
     import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
-    import { focus } from "./store";
+    import { focus,sheet } from "./store";
 
     let main;
     let scrolly;
@@ -13,7 +13,6 @@
     let article;
     let step;
     let scroller;
-    let sheet = 0;
     let selectedList = discoClassics;
 
     onMount(() => {
@@ -52,13 +51,13 @@
                 uri: "init",
             });
         }
-        sheet = response.index;
+        sheet.set(response.index);
     }
 
     function handleStepExit(response) {
         if (response.index == 2 && response.direction === "down") {
             setTimeout(() => {
-                sheet = 0;
+                sheet.set(0);
                 d3.selectAll(".triangle").attr("opacity", 0);
                 d3.selectAll(".triangleText").attr("opacity", 0);
                 d3.selectAll(".rectangle").attr("opacity", 0);
@@ -135,7 +134,7 @@
         </article>
 
         <figure>
-            <Scatterplot data={selectedList} {sheet} explorative={false} />
+            <Scatterplot data={selectedList} explorative={false} />
         </figure>
     </section>
 </main>

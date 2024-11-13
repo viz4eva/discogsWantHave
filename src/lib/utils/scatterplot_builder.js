@@ -259,6 +259,9 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
             "stroke-width",
             3 / transform.k,
         );
+        d3.selectAll("rect").attr("transform",transform);
+        d3.selectAll("text").attr("transform",transform);
+        d3.selectAll("polygon").attr("transform",transform);
         gx.call(xAxis, zx);
         gy.call(yAxis, zy);
 

@@ -6,3 +6,5 @@ export const focus = writable({
     in_collection: 'init',
     uri: 'init'
 });
+
+export const sheet = writable(0);

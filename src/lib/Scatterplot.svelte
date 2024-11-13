@@ -7,15 +7,11 @@
         height
     } from "$lib/utils/vis_utils";
     import { buildScatter } from "$lib/utils/scatterplot_builder";
-    import { focus } from "./store";
+    import { sheet } from "./store";
     /**
      * @type {{ items: any[]; }}
      */
     export let data;
-    /**
-     * @type {number}
-     */
-    export let sheet;
     /**
      * @type {boolean}
      */
@@ -42,17 +38,17 @@
         d3.selectAll(".rectangle").attr("opacity", 0);
         d3.selectAll(".rectangleText").attr("opacity", 0);
         if (explorative) {
-            if (sheet < 2) {
-                sheet++;
+            if ($sheet < 2) {
+                sheet.update(n => n+1);
             } else {
-                sheet = 0;
+                sheet.set(0);
             }
         }
     }
-    $: if (sheet === 1) {
+    $: if ($sheet === 1) {
         toggleTriangleOverlay();
     }
-    $: if (sheet === 2) {
+    $: if ($sheet === 2) {
         toggleRectOverlay();
     }
 

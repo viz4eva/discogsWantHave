@@ -122,7 +122,7 @@
     <option value={jungle}>{jungle.name}</option>
     <option value={rare}>{rare.name}</option>
 </select>
-<Scatterplot data={selectedList} sheet={0} explorative={true} />
+<Scatterplot data={selectedList} explorative={true} />
 
 <div class="credits">
     <p>
