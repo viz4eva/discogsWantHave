@@ -12,4 +12,9 @@
         font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         font-size: large;
     }
+
+    :global(a) {
+        font-weight: bolder;
+        color: black;
+    }
 </style>

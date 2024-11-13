@@ -120,13 +120,13 @@
                     that further exmplain the demand for the included releases.
                 </p>
                 <ul>
-                    <li>Basic: wanted by few, owned by few</li>
+                    <li><span class="keyword">Basic:</span> wanted by few, owned by few</li>
                     <li>
-                        Saturated: already in many collections but on few
+                        <span class="keyword">Saturated:</span> already in many collections but on few
                         want-lists
                     </li>
-                    <li>Popular: Collected by many and still wanted by many</li>
-                    <li>Super rare: owned by few, but wanted by many</li>
+                    <li><span class="keyword">Popular:</span> Collected by many and still wanted by many</li>
+                    <li><span class="keyword">Super rare:</span> owned by few, but wanted by many</li>
                 </ul>
                 <p>
                     In this collection we have an interesting, very saturated
@@ -186,5 +186,10 @@
         width: 200px;
         font-size: large;
         padding-top: 50px;
+    }
+
+    .keyword {
+        font-weight: bolder;
+        font-size: large;
     }
 </style>
