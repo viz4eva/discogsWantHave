@@ -1,6 +1,6 @@
 <script>
     import Scatterplot from "./Scatterplot.svelte";
-    import { jungle, rare, discoClassics } from "$lib/utils/utils.js";
+    import { jungle, rare, discoClassics, ndw, spanishDisco, rareWanted,germanBeat } from "$lib/utils/utils.js";
 
     let selectedList = rare;
 </script>
@@ -41,6 +41,10 @@
     <option value={discoClassics}>{discoClassics.name}</option>
     <option value={jungle}>{jungle.name}</option>
     <option value={rare}>{rare.name}</option>
+    <option value={rareWanted}>{rareWanted.name}</option>
+    <option value={germanBeat}>{germanBeat.name}</option>
+    <option value={spanishDisco}>{spanishDisco.name}</option>
+    <option value={ndw}>{ndw.name}</option>
 </select>
 <Scatterplot data={selectedList} explorative={true} />
 
