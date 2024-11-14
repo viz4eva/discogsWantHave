@@ -20,6 +20,7 @@ function recalcVisUtils(data) {
                 title: elem.display_title,
                 resource: elem.resource_url,
                 uri: elem.uri,
+                id: elem.id
             };
         },
     );
@@ -205,8 +206,14 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
             },
         )
         .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
-            focus.set(d);
             d3.select(e.currentTarget).attr("fill", "grey");
+
+            fetch(`https://api.discogs.com/releases/${d.id}`).then(res => res.json()).then((json) => {
+                const uri = json.videos[0].uri;
+                const embed = `https://www.youtube.com/embed/${uri.split("v=")[1]}`;
+                d.video = embed;
+                focus.set(d); 
+            } );
         })
         .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
             d3.select(e.currentTarget).attr("fill", (

@@ -1,10 +1,11 @@
 <script>
+    import { onMount } from 'svelte';
     import {focus} from './store';
 </script>
 
 <div class="detail-section">
     {#if $focus.title !== "init"}
-        <h3>{$focus.title}</h3>
+        <h3>{$focus.title}{$focus.id}</h3>
         <span class="bold">Want:</span>
         {$focus.in_wantlist} <br />
         <span class="bold">Have:</span>
@@ -12,6 +13,9 @@
         <a href={$focus.uri} target="_blank" class="bold"
             >Check it out on Discogs</a
         >
+        <iframe width="100%" height="200" title="video"
+        src={$focus.video}>
+        </iframe> 
     {:else}
         <p>Hover over a dot to see the respective release</p>
     {/if}
@@ -34,5 +38,10 @@
     a {
         text-decoration: none;
         cursor: pointer;
+    }
+    
+    iframe {
+        margin-top: 10px;
+        border: none;
     }
 </style>
