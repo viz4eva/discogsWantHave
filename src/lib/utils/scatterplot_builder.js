@@ -209,11 +209,17 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
             d3.select(e.currentTarget).attr("fill", "grey");
 
             fetch(`https://api.discogs.com/releases/${d.id}`).then(res => res.json()).then((json) => {
-                const uri = json.videos[0].uri;
-                const embed = `https://www.youtube.com/embed/${uri.split("v=")[1]}`;
-                d.video = embed;
-                focus.set(d); 
-            } );
+                if (json.videos[0]) {
+                    const uri = json.videos[0].uri;
+                    const embed = `https://www.youtube.com/embed/${uri.split("v=")[1]}`;
+                    d.video = embed;
+                }
+                else {
+                    d.video = "none";
+                }
+
+                focus.set(d);
+            });
         })
         .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
             d3.select(e.currentTarget).attr("fill", (
@@ -266,9 +272,9 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
             "stroke-width",
             3 / transform.k,
         );
-        d3.selectAll("rect").attr("transform",transform);
-        d3.selectAll("text").attr("transform",transform);
-        d3.selectAll("polygon").attr("transform",transform);
+        d3.selectAll("rect").attr("transform", transform);
+        d3.selectAll("text").attr("transform", transform);
+        d3.selectAll("polygon").attr("transform", transform);
         gx.call(xAxis, zx);
         gy.call(yAxis, zy);
 
