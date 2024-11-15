@@ -206,8 +206,6 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
             },
         )
         .on("mouseover", (/** @type {any} */ e, /** @type {any} */ d) => {
-            d3.select(e.currentTarget).attr("fill", "grey");
-
             fetch(`https://api.discogs.com/releases/${d.id}`).then(res => res.json()).then((json) => {
                 if (json.videos[0]) {
                     const uri = json.videos[0].uri;
@@ -220,9 +218,7 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
 
                 focus.set(d);
             });
-        })
-        .on("mouseout", (/** @type {any} */ e, /** @type {any} */ d) => {
-            d3.select(e.currentTarget).attr("fill", (
+            d3.selectAll("circle").attr("fill", (
                 /** @type {{ in_wantlist: any; in_collection: any; }} */ d,
             ) => {
                 if (d) {
@@ -232,6 +228,7 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
                     return "#1C29E1";
                 }
             });
+            d3.select(e.currentTarget).attr("fill", "grey");
         })
         .transition()
         .duration(900)
