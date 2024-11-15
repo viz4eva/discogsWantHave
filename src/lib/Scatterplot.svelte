@@ -2,12 +2,9 @@
     import * as d3 from "d3";
     import { onMount } from "svelte";
     import Details from "./Details.svelte";
-    import {
-        width,
-        height
-    } from "$lib/utils/vis_utils";
+    import { width, height } from "$lib/utils/vis_utils";
     import { buildScatter } from "$lib/utils/scatterplot_builder";
-    import { sheet } from "./store";
+    import { sheet, focus } from "./store";
     /**
      * @type {{ items: any[]; }}
      */
@@ -39,7 +36,7 @@
         d3.selectAll(".rectangleText").attr("opacity", 0);
         if (explorative) {
             if ($sheet < 2) {
-                sheet.update(n => n+1);
+                sheet.update((n) => n + 1);
             } else {
                 sheet.set(0);
             }
@@ -86,6 +83,62 @@
             .duration(500)
             .attr("opacity", 1);
     }
+
+    function setNext() {
+        const currentIndex = data.items.map((d) => d.id).indexOf($focus.id);
+        const elem =
+            currentIndex <= data.items.length
+                ? data.items[currentIndex + 1]
+                : data.items[0];
+
+        setNewFocus(elem);
+    }
+
+    function setPrev() {
+        const currentIndex = data.items.map((d) => d.id).indexOf($focus.id);
+        const elem =
+            currentIndex >= 0
+                ? data.items[currentIndex - 1]
+                : data.items[data.items.length - 1];
+
+        setNewFocus(elem);
+    }
+
+    function setNewFocus(elem) {
+        const newFocus = {
+            in_wantlist: elem.stats?.community.in_wantlist,
+            in_collection: elem.stats?.community.in_collection,
+            title: elem.display_title,
+            resource: elem.resource_url,
+            uri: elem.uri,
+            id: elem.id,
+            video: "none",
+        };
+        fetch(`https://api.discogs.com/releases/${newFocus.id}`)
+            .then((res) => res.json())
+            .then((json) => {
+                if (json.videos[0]) {
+                    const uri = json.videos[0].uri;
+                    const embed = `https://www.youtube.com/embed/${uri.split("v=")[1]}`;
+                    newFocus.video = embed;
+                }
+                focus.set(newFocus);
+            });
+        d3.selectAll("circle").attr(
+            "fill",
+            (/** @type {{ in_wantlist: any; in_collection: any; }} */ d) => {
+                if (d) {
+                    if (d.in_wantlist <= d.in_collection) {
+                        return "#FFAE85";
+                    }
+                    return "#1C29E1";
+                }
+            },
+        );
+        d3.selectAll("circle")
+            .filter((/** @type {{ id: any; }} */ d) => d.id == newFocus.id)
+            .attr("fill", "grey");
+    }
 </script>
 
 <div class="vis-wrapper">
@@ -107,10 +160,22 @@
             <div class="button-section" bind:this={buttonSection}></div>
         {/if}
         <Details />
+        {#if explorative}
+            <button on:click={setPrev}>prev</button>
+            <button on:click={setNext}>next</button>
+        {/if}
     </div>
 </div>
 
 <style>
+    button {
+        border: 1px solid #777;
+        border-radius: 10px;
+        padding: 10px;
+        background: rgb(247, 249, 223);
+        margin-top: 10px;
+    }
+
     .vis-wrapper {
         display: flex;
         gap: 0.5rem;
