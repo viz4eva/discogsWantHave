@@ -76,7 +76,7 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
                 .attr("x", elem.textX)
                 .attr("y", elem.textY)
                 .attr("fill", elem.fill)
-                .attr("stroke", "#888")
+                .attr("stroke", "#777")
                 .attr("font-size", 20)
                 .attr("font-family", "Arial, Helvetica, sans-serif")
                 .attr("opacity", 0);
