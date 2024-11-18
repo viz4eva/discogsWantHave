@@ -12,7 +12,7 @@ export const rectOverlayData = [
         width: width / 2 - margin + 10,
         height: height / 2 - 10,
         fill: "#00509d",
-        textX: width * 0.25 - margin,
+        textX: width * 0.25 - margin/2,
         textY: height * 0.25,
         text: "saturated",
     },
@@ -60,7 +60,7 @@ export const triangleOverlayData = [
         path: `${margin},${height - margin} ${width},${height - margin} ${width},0`,
         fill: "#1C29E1",
         text: "More people want it",
-        textX: width / 2 + 20,
+        textX: width - margin * 4,
         textY: height - margin - 10,
     },
 ];

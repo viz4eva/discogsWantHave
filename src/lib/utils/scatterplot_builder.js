@@ -76,9 +76,9 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
                 .attr("x", elem.textX)
                 .attr("y", elem.textY)
                 .attr("fill", elem.fill)
-                .attr("stroke", "black")
+                .attr("stroke", "#888")
                 .attr("font-size", 20)
-                .attr("font-family", "monospace")
+                .attr("font-family", "Arial, Helvetica, sans-serif")
                 .attr("opacity", 0);
         },
     );
@@ -106,9 +106,9 @@ export const buildScatter = (scatterplot, data, buttonSection) => {
                 .attr("x", elem.textX)
                 .attr("y", elem.textY)
                 .attr("fill", elem.fill)
-                .attr("stroke", "#777")
+                .attr("stroke", "#999")
                 .attr("font-size", 30)
-                .attr("font-family", "monospace")
+                .attr("font-family", "Arial, Helvetica, sans-serif")
                 .classed("rectangleText", true)
                 .attr("opacity", 0);
         },
