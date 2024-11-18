@@ -84,6 +84,7 @@
             .attr("opacity", 1);
     }
 
+    /**
     function setNext() {
         const currentIndex = data.items.map((d) => d.id).indexOf($focus.id);
         const elem =
@@ -126,7 +127,7 @@
             });
         d3.selectAll("circle").attr(
             "fill",
-            (/** @type {{ in_wantlist: any; in_collection: any; }} */ d) => {
+            ( d) => {
                 if (d) {
                     if (d.in_wantlist <= d.in_collection) {
                         return "#FFAE85";
@@ -136,9 +137,10 @@
             },
         );
         d3.selectAll("circle")
-            .filter((/** @type {{ id: any; }} */ d) => d.id == newFocus.id)
+            .filter((d) => d.id == newFocus.id)
             .attr("fill", "grey");
     }
+    **/
 </script>
 
 <div class="vis-wrapper">
@@ -160,10 +162,10 @@
             <div class="button-section" bind:this={buttonSection}></div>
         {/if}
         <Details />
-        {#if explorative}
+        <!--- {#if explorative}
             <button on:click={setPrev}>prev</button>
             <button on:click={setNext}>next</button>
-        {/if}
+        {/if}-->
     </div>
 </div>
 
